@@ -40,7 +40,7 @@ end.
 
 ## Documentation
 
- - [Online Documentation](https://webui.me/docs/#/pascal_api)
+ - [Online Documentation](https://webui.me/docs/#/c_api)
 
 ## CppCon 2019 Presentation
 
