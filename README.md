@@ -23,7 +23,7 @@ program minimal;
 {$mode objfpc}{$H+}
 
 uses
-  webui, sysutils;
+  webui;
 
 var
   window: size_t;
