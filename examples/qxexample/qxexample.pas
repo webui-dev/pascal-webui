@@ -14,7 +14,7 @@ procedure EventHandler(e: Pwebui_event_t);
 begin
     writeln('Received callback: ', e^.data);
     inc(counter);
-    webui_interface_set_response(e^.window, e^.event_number, PChar('{"label1": "Message from Free Pascal", "label2": "' + IntToStr(counter) + '"}'));
+    webui_return_string(e, PChar('{"label1": "Message from Free Pascal", "label2": "' + IntToStr(counter) + '"}'));
 end;
 
 begin
