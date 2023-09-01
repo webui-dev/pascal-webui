@@ -4,9 +4,9 @@
 
 ! x64 only
 
-webui static library - https://github.com/ttytm/webui/releases/download/v0.0.1-test/windows-gcc-x64.zip
+webui static library is taken from https://github.com/ttytm/webui/releases/download/v0.0.1-test/windows-gcc-x64.zip
 
-other static libraries - https://www.mingw-w64.org/downloads/
+other static libraries is taken from https://www.mingw-w64.org/downloads/
 
 FileSize	: 286739 bytes ( 280.019 KB,  0.273 MB )  - without optimization
 
