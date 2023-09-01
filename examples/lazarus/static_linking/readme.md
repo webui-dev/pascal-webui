@@ -1,6 +1,6 @@
 # Example with static linking
 
-! FPC 3.3.1 compiler is required (FPC 3.2.2 causes an error caused by a bug of the compiler itself)
+! FPC 3.3.1 is required (FPC 3.2.2 causes an error caused by a bug of the compiler itself)
 
 ! x64 only
 
