@@ -4,7 +4,7 @@
 
 ! x64 only
 
-FileSize	: 286739 bytes ( 280.019 KB,  0.273 MB )  - without compiler optimization
+FileSize	: 286739 bytes ( 280.019 KB,  0.273 MB )  - without optimization
 
 FileSize	: 265747 bytes ( 259.519 KB,  0.253 MB )  - max optimization (-20992 bytes, 7,3%)
 
