@@ -22,7 +22,7 @@ begin
   window := webui_new_window;
   webui_bind(window, '', @EventHandler);
   webui_bind(window, 'MyID', @MyIDEventHandler);
-  webui_show(window, '<html><head><script src="/webui.js"></script></head><body><style>#main {width: 500; height: 500;}</style><h1 style="color: green;">this lesson to lear button event and links with pascal</h1><h3><br/><br/><button id="MyID">Hello</button></h3></body></html>');
+  webui_show(window, '<!DOCTYPE html><html><head><script src="/webui.js"></script></head><body><style>#main {width: 500; height: 500;}</style><h1 style="color: green;">this lesson to lear button event and links with pascal</h1><h3><br/><br/><button id="MyID">Hello</button></h3></body></html>');
   webui_wait;
 end.
 
