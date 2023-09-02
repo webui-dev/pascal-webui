@@ -4,7 +4,7 @@
 
 ! x64 only
 
-webui static library is taken from https://github.com/ttytm/webui/releases/download/v0.0.1-test/windows-gcc-x64.zip
+webui static library is taken from https://github.com/webui-dev/webui/suites/15744248695/artifacts/898948037
 
 other static libraries is taken from https://www.mingw-w64.org/downloads/
 
