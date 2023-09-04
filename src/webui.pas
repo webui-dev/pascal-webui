@@ -125,9 +125,9 @@ procedure webui_send_raw(window: SizeInt; const func: PChar; raw: Pointer; size:
 // Run the window in hidden mode.
 procedure webui_set_hide(window: SizeInt; status: Boolean); stdcall; external webuilib;
 // Set the window size.
-procedure webui_set_size(window: SizeInt; width, height: DWord); stdcall; external webuilib;
+procedure webui_set_size(window: SizeInt; width, height: UInt32); stdcall; external webuilib;
 // Set the window position.
-procedure webui_set_position(window: SizeInt; x, y: DWord); stdcall; external webuilib;
+procedure webui_set_position(window: SizeInt; x, y: UInt32); stdcall; external webuilib;
 
 // -- Interface -----------------------
 // Bind a specific html element click event with a function. Empty element means all events.
