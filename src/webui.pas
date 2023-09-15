@@ -80,6 +80,8 @@ procedure webui_destroy(window: SizeInt); stdcall; external webuilib;
 procedure webui_exit; stdcall; external webuilib;
 // Set the web-server root folder path.
 function webui_set_root_folder(window: SizeInt; const path: PChar): Boolean; stdcall; external webuilib;
+// Set the web-server root folder path for all windows. Should be used before `webui_show()`.
+function webui_set_default_root_folder(const path: PChar): Boolean; stdcall; external external webuilib; 
 // Set a custom handler to serve files
 procedure webui_set_file_handler(window: SizeInt; handler: Pointer); stdcall; external webuilib;
 
@@ -92,6 +94,9 @@ procedure webui_set_timeout(second: SizeInt); stdcall; external webuilib;
 procedure webui_set_icon(window: SizeInt; const icon, icon_type: PChar); stdcall; external webuilib;
 // Allow the window URL to be re-used in normal web browsers
 procedure webui_set_multi_access(window: SizeInt; status: Boolean); stdcall; external webuilib;
+// Get process id (The web browser may create another process for the window)
+function webui_get_child_process_id(window: SizeInt): SizeInt; stdcall; external webuilib;
+function webui_get_parent_process_id(window: SizeInt): SizeInt; stdcall; external webuilib;
 
 // -- JavaScript ----------------------
 // Run JavaScript quickly with no waiting for the response.
