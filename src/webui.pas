@@ -81,7 +81,7 @@ procedure webui_exit; stdcall; external webuilib;
 // Set the web-server root folder path.
 function webui_set_root_folder(window: size_t; const path: PChar): Boolean; stdcall; external webuilib;
 // Set the web-server root folder path for all windows. Should be used before `webui_show()`.
-function webui_set_default_root_folder(const path: PChar): Boolean; stdcall; external external webuilib; 
+function webui_set_default_root_folder(const path: PChar): Boolean; stdcall; external webuilib; 
 // Set a custom handler to serve files
 procedure webui_set_file_handler(window: size_t; handler: Pointer); stdcall; external webuilib;
 
