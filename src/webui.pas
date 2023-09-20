@@ -46,14 +46,15 @@ type
     event_type: size_t; // Event type
     element: PChar; // HTML element ID
     data: PChar; // JavaScript data
-    size: Int64; // JavaScript data len
+    size: size_t; // JavaScript data len
     event_number: size_t; // Internal WebUI
   end;
 
   Pwebui_event_t = ^webui_event_t;
 
   TWebuiEventProc = procedure(e: Pwebui_event_t);
-  TWebuiInterfaceEventProc = procedure(window, event_type: size_t; element, data: PChar; data_size: Int64; event_number: size_t);
+  TWebuiInterfaceEventProc = procedure(window, event_type: size_t; element, data: PChar; data_size, event_number: size_t);
+  TWebuiFileHandler = function(filename: PChar; len: PInteger): PChar;
 
 // -- Definitions ---------------------
 // Create a new webui window object.
@@ -83,7 +84,7 @@ function webui_set_root_folder(window: size_t; const path: PChar): Boolean; stdc
 // Set the web-server root folder path for all windows. Should be used before `webui_show()`.
 function webui_set_default_root_folder(const path: PChar): Boolean; stdcall; external webuilib; 
 // Set a custom handler to serve files
-procedure webui_set_file_handler(window: size_t; handler: Pointer); stdcall; external webuilib;
+procedure webui_set_file_handler(window: size_t; handler: TWebuiFileHandler); stdcall; external webuilib;
 
 // -- Other ---------------------------
 // Check a specific window if it's still running
@@ -133,6 +134,8 @@ procedure webui_set_hide(window: size_t; status: Boolean); stdcall; external web
 procedure webui_set_size(window: size_t; width, height: UInt32); stdcall; external webuilib;
 // Set the window position.
 procedure webui_set_position(window: size_t; x, y: UInt32); stdcall; external webuilib;
+// Set the web browser profile to use. An empty `name` and `path` means the default user profile. Need to be called before `webui_show()`.
+procedure webui_set_profile(window: size_t; const name, path: PChar); stdcall; external webuilib;
 
 // -- Interface -----------------------
 // Bind a specific html element click event with a function. Empty element means all events.
