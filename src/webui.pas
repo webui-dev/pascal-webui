@@ -54,6 +54,7 @@ type
 
   TWebuiEventProc = procedure(e: Pwebui_event_t);
   TWebuiInterfaceEventProc = procedure(window, event_type: size_t; element, data: PChar; data_size, event_number: size_t);
+  TWebuiFileHandler = function(filename: PChar; len: PInteger): PChar;
 
 // -- Definitions ---------------------
 // Create a new webui window object.
@@ -83,7 +84,7 @@ function webui_set_root_folder(window: size_t; const path: PChar): Boolean; stdc
 // Set the web-server root folder path for all windows. Should be used before `webui_show()`.
 function webui_set_default_root_folder(const path: PChar): Boolean; stdcall; external webuilib; 
 // Set a custom handler to serve files
-procedure webui_set_file_handler(window: size_t; handler: Pointer); stdcall; external webuilib;
+procedure webui_set_file_handler(window: size_t; handler: TWebuiFileHandler); stdcall; external webuilib;
 
 // -- Other ---------------------------
 // Check a specific window if it's still running
