@@ -46,14 +46,14 @@ type
     event_type: size_t; // Event type
     element: PChar; // HTML element ID
     data: PChar; // JavaScript data
-    size: Int64; // JavaScript data len
+    size: size_t; // JavaScript data len
     event_number: size_t; // Internal WebUI
   end;
 
   Pwebui_event_t = ^webui_event_t;
 
   TWebuiEventProc = procedure(e: Pwebui_event_t);
-  TWebuiInterfaceEventProc = procedure(window, event_type: size_t; element, data: PChar; data_size: Int64; event_number: size_t);
+  TWebuiInterfaceEventProc = procedure(window, event_type: size_t; element, data: PChar; data_size, event_number: size_t);
 
 // -- Definitions ---------------------
 // Create a new webui window object.
