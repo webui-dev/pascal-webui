@@ -133,6 +133,8 @@ procedure webui_set_hide(window: size_t; status: Boolean); stdcall; external web
 procedure webui_set_size(window: size_t; width, height: UInt32); stdcall; external webuilib;
 // Set the window position.
 procedure webui_set_position(window: size_t; x, y: UInt32); stdcall; external webuilib;
+// Set the web browser profile to use. An empty `name` and `path` means the default user profile. Need to be called before `webui_show()`.
+procedure webui_set_profile(window: size_t; const name, path: PChar); stdcall; external webuilib;
 
 // -- Interface -----------------------
 // Bind a specific html element click event with a function. Empty element means all events.
