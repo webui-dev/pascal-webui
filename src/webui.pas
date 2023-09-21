@@ -2,54 +2,47 @@ unit WebUI;
 
 interface
 
-// -- Consts --------------------------
-const
+const        
+  webuilib      = 'webui.dll';
   WEBUI_VERSION = '2.4.0';
-  WEBUI_MAX_IDS = 512;
-  webuilib = 'webui.dll';
+  WEBUI_MAX_IDS = 512; // Max windows, servers and threads
+
+  // Browsers
+  WEBUI_AnyBrowser = 0;  // Default recommended web browser
+  WEBUI_Chrome     = 1;  // Google Chrome
+  WEBUI_Firefox    = 2;  // Mozilla Firefox
+  WEBUI_Edge       = 3;  // Microsoft Edge
+  WEBUI_Safari     = 4;  // Apple Safari
+  WEBUI_Chromium   = 5;  // The Chromium Project
+  WEBUI_Opera      = 6;  // Opera Browser
+  WEBUI_Brave      = 7;  // The Brave Browser
+  WEBUI_Vivaldi    = 8;  // The Vivaldi Browser
+  WEBUI_Epic       = 9;  // The Epic Browser
+  WEBUI_Yandex     = 10; // The Yandex Browser
+
+  // Runtimes
+  WEBUI_RUNTIME_None   = 0; // Prevent WebUI from using any runtime for .js and .ts files
+  WEBUI_RUNTIME_Deno   = 1; // Use Deno runtime for .js and .ts files
+  WEBUI_RUNTIME_NodeJS = 2; // Use Nodejs runtime for .js files
+
+  // Events
+  WEBUI_EVENT_DISCONNECTED        = 0; // Window disconnection event
+  WEBUI_EVENT_CONNECTED           = 1; // Window connection event
+  WEBUI_EVENT_MULTI_CONNECTION    = 2; // New window connection event
+  WEBUI_EVENT_UNWANTED_CONNECTION = 3; // New unwanted window connection event
+  WEBUI_EVENT_MOUSE_CLICK         = 4; // Mouse click event
+  WEBUI_EVENT_NAVIGATION          = 5; // Window navigation event
+  WEBUI_EVENT_CALLBACK            = 6; // Function call event
 
 type
-// -- Enums ---------------------------
-  webui_browsers = (
-    AnyBrowser,        // 0. Default recommended web browser
-    Chrome,            // 1. Google Chrome
-    Firefox,           // 2. Mozilla Firefox
-    Edge,              // 3. Microsoft Edge
-    Safari,            // 4. Apple Safari
-    Chromium,          // 5. The Chromium Project
-    Opera,             // 6. Opera Browser
-    Brave,             // 7. The Brave Browser
-    Vivaldi,           // 8. The Vivaldi Browser
-    Epic,              // 9. The Epic Browser
-    Yandex             // 10. The Yandex Browser
-  );
-
-  webui_runtimes = (
-    None,              // 0. Prevent WebUI from using any runtime for .js and .ts files
-    Deno,              // 1. Use Deno runtime for .js and .ts files
-    NodeJS             // 2. Use Nodejs runtime for .js files
-  );
-
-  webui_events = (
-    WEBUI_EVENT_DISCONNECTED,               // 0. Window disconnection event
-    WEBUI_EVENT_CONNECTED,                  // 1. Window connection event
-    WEBUI_EVENT_MULTI_CONNECTION,           // 2. New window connection event
-    WEBUI_EVENT_UNWANTED_CONNECTION,        // 3. New unwanted window connection event
-    WEBUI_EVENT_MOUSE_CLICK,                // 4. Mouse click event
-    WEBUI_EVENT_NAVIGATION,                 // 5. Window navigation event
-    WEBUI_EVENT_CALLBACK                    // 6. Function call event
-  );
-
-// -- Structs -------------------------
   webui_event_t = record
-    window: size_t; // The window object number
-    event_type: size_t; // Event type
-    element: PChar; // HTML element ID
-    data: PChar; // JavaScript data
-    size: size_t; // JavaScript data len
+    window: size_t;       // The window object number
+    event_type: size_t;   // Event type
+    element: PChar;       // HTML element ID
+    data: PChar;          // JavaScript data
+    size: size_t;         // JavaScript data len
     event_number: size_t; // Internal WebUI
   end;
-
   Pwebui_event_t = ^webui_event_t;
 
   TWebuiEventProc = procedure(e: Pwebui_event_t);
@@ -149,7 +142,7 @@ function webui_interface_get_window_id(window: size_t): size_t; stdcall; externa
 // Get a unique ID. Same ID as `webui_bind()`. Return > 0 if bind exists.
 function webui_interface_get_bind_id(window: size_t; const element: PChar): size_t; stdcall; external webuilib;
 
-
 implementation
 
 end.
+
