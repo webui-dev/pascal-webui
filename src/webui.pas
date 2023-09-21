@@ -3,7 +3,7 @@ unit WebUI;
 interface
 
 const        
-  webuilib      = 'webui.dll';
+  webuilib      = 'webui-2.dll';
   WEBUI_VERSION = '2.4.0';
   WEBUI_MAX_IDS = 512; // Max windows, servers and threads
 
