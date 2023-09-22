@@ -129,7 +129,7 @@ procedure webui_set_size(window: size_t; width, height: UInt32); stdcall; extern
 procedure webui_set_position(window: size_t; x, y: UInt32); stdcall; external webuilib;
 // Set the web browser profile to use. An empty `name` and `path` means the default user profile. Need to be called before `webui_show()`.
 procedure webui_set_profile(window: size_t; const name, path: PChar); stdcall; external webuilib;
-// Get the server URL
+// Get the full current URL
 function webui_get_url(window: size_t): PChar; stdcall; external webuilib;
 
 // -- Interface -----------------------
