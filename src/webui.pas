@@ -134,6 +134,8 @@ procedure webui_set_profile(window: size_t; const name, path: PChar); stdcall; e
 function webui_get_url(window: size_t): PChar; stdcall; external webuilib;
 // Navigate to a specific URL
 procedure webui_navigate(window: size_t; url: PChar); stdcall; external webuilib;
+// Delete all local web browser profile's folder
+procedure webui_clean; stdcall; external webuilib;
 
 // -- Interface -----------------------
 // Bind a specific html element click event with a function. Empty element means all events.
