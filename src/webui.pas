@@ -8,18 +8,19 @@ const
   WEBUI_MAX_IDS = 512; // Max windows, servers and threads
 
   // Browsers
-  WEBUI_AnyBrowser    = 0;  // Default recommended web browser
-  WEBUI_Chrome        = 1;  // Google Chrome
-  WEBUI_Firefox       = 2;  // Mozilla Firefox
-  WEBUI_Edge          = 3;  // Microsoft Edge
-  WEBUI_Safari        = 4;  // Apple Safari
-  WEBUI_Chromium      = 5;  // The Chromium Project
-  WEBUI_Opera         = 6;  // Opera Browser
-  WEBUI_Brave         = 7;  // The Brave Browser
-  WEBUI_Vivaldi       = 8;  // The Vivaldi Browser
-  WEBUI_Epic          = 9;  // The Epic Browser
-  WEBUI_Yandex        = 10; // The Yandex Browser
-  WEBUI_ChromiumBased = 11; // Any Chromium based browser
+  WEBUI_NoBrowser     = 0;  // NoBrowser
+  WEBUI_AnyBrowser    = 1;  // Default recommended web browser
+  WEBUI_Chrome        = 2;  // Google Chrome
+  WEBUI_Firefox       = 3;  // Mozilla Firefox
+  WEBUI_Edge          = 4;  // Microsoft Edge
+  WEBUI_Safari        = 5;  // Apple Safari
+  WEBUI_Chromium      = 6;  // The Chromium Project
+  WEBUI_Opera         = 7;  // Opera Browser
+  WEBUI_Brave         = 8;  // The Brave Browser
+  WEBUI_Vivaldi       = 9;  // The Vivaldi Browser
+  WEBUI_Epic          = 10; // The Epic Browser
+  WEBUI_Yandex        = 11; // The Yandex Browser
+  WEBUI_ChromiumBased = 12; // Any Chromium based browser
 
   // Runtimes
   WEBUI_RUNTIME_None   = 0; // Prevent WebUI from using any runtime for .js and .ts files
