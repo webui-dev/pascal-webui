@@ -90,8 +90,9 @@ procedure webui_set_timeout(second: size_t); stdcall; external webuilib;
 procedure webui_set_icon(window: size_t; const icon, icon_type: PChar); stdcall; external webuilib;
 // Allow the window URL to be re-used in normal web browsers
 procedure webui_set_multi_access(window: size_t; status: Boolean); stdcall; external webuilib;
-// Get process id (The web browser may create another process for the window)
+// Get the ID of the child process (The web browser may create another process for the window)
 function webui_get_child_process_id(window: size_t): size_t; stdcall; external webuilib;
+// Get the ID of the parent process (The web browser may create another process for the window)
 function webui_get_parent_process_id(window: size_t): size_t; stdcall; external webuilib;
 
 // -- JavaScript ----------------------
