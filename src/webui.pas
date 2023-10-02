@@ -41,6 +41,8 @@ const
 
 // -- Structs -------------------------
 
+{$packrecords C}
+
 type
   webui_event_t = record
     window: size_t;       // The window object number
