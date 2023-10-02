@@ -1,0 +1,8 @@
+*.exe
+*.dll
+*.lps
+*.compiled
+*.o
+*.a
+*.ppu
+*.s
