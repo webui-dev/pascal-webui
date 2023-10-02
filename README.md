@@ -23,7 +23,7 @@ WebUI is not a web-server solution or a framework, but it allows you to use any 
 ## Features
 
 - Fully Independent (*No need for any third-party runtimes*)
-- Lightweight (~300 KB for minimal example; ~400 KB for basic app (no LCL) - including WebUI lib) & Small memory footprint
+- Lightweight (~250 KB for minimal example, ~350 KB for basic app (no LCL) - including WebUI lib) & Small memory footprint
 - Fast binary communication protocol between WebUI and the browser (*Instead of JSON*)
 - Multi-platform & Multi-Browser
 - Using private profile for safety
