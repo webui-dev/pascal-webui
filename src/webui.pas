@@ -7,6 +7,9 @@ const
   WEBUI_VERSION = '2.4.0';
   WEBUI_MAX_IDS = 512; // Max windows, servers and threads
 
+// -- Enums/Consts --------------------
+
+const
   // Browsers
   WEBUI_NoBrowser     = 0;  // NoBrowser
   WEBUI_AnyBrowser    = 1;  // Default recommended web browser
@@ -36,6 +39,8 @@ const
   WEBUI_EVENT_NAVIGATION          = 5; // Window navigation event
   WEBUI_EVENT_CALLBACK            = 6; // Function call event
 
+// -- Structs -------------------------
+
 type
   webui_event_t = record
     window: size_t;       // The window object number
@@ -52,6 +57,7 @@ type
   TWebuiFileHandler = function(filename: PChar; len: PInteger): PChar;
 
 // -- Definitions ---------------------
+
 // Create a new webui window object.
 function webui_new_window: size_t; stdcall; external webuilib;
 // Create a new webui window object.
@@ -80,8 +86,6 @@ function webui_set_root_folder(window: size_t; const path: PChar): Boolean; stdc
 function webui_set_default_root_folder(const path: PChar): Boolean; stdcall; external webuilib; 
 // Set a custom handler to serve files
 procedure webui_set_file_handler(window: size_t; handler: TWebuiFileHandler); stdcall; external webuilib;
-
-// -- Other ---------------------------
 // Check a specific window if it's still running
 function webui_is_shown(window: size_t): Boolean; stdcall; external webuilib;
 // Set the maximum time in seconds to wait for the browser to start
@@ -89,31 +93,7 @@ procedure webui_set_timeout(second: size_t); stdcall; external webuilib;
 // Set the default embedded HTML favicon
 procedure webui_set_icon(window: size_t; const icon, icon_type: PChar); stdcall; external webuilib;
 // Allow the window URL to be re-used in normal web browsers
-procedure webui_set_multi_access(window: size_t; status: Boolean); stdcall; external webuilib;   
-// Get the ID of the parent process (The web browser may re-create another new process).
-function webui_get_parent_process_id(window: size_t): size_t; stdcall; external webuilib;
-// Get the ID of the last child process.
-function webui_get_child_process_id(window: size_t): size_t; stdcall; external webuilib;
-
-// -- JavaScript ----------------------
-// Run JavaScript quickly with no waiting for the response.
-procedure webui_run(window: size_t; const script: PChar); stdcall; external webuilib;
-// Run a JavaScript, and get the response back (Make sure your local buffer can hold the response).
-function webui_script(window: size_t; const script: PChar; timeout: size_t; buffer: PChar; buffer_length: size_t): Boolean; stdcall; external webuilib;
-// Chose between Deno and Nodejs runtime for .js and .ts files.
-procedure webui_set_runtime(window: size_t; runtime: size_t); stdcall; external webuilib;
-// Parse argument as integer.
-function webui_get_int(e: Pwebui_event_t): Int64; stdcall; external webuilib;
-// Parse argument as string.
-function webui_get_string(e: Pwebui_event_t): PChar; stdcall; external webuilib;
-// Parse argument as boolean.
-function webui_get_bool(e: Pwebui_event_t): Boolean; stdcall; external webuilib;
-// Return the response to JavaScript as integer.
-procedure webui_return_int(e: Pwebui_event_t; n: Int64); stdcall; external webuilib;
-// Return the response to JavaScript as string.
-procedure webui_return_string(e: Pwebui_event_t; const s: PChar); stdcall; external webuilib;
-// Return the response to JavaScript as boolean.
-procedure webui_return_bool(e: Pwebui_event_t; b: Boolean); stdcall; external webuilib;
+procedure webui_set_multi_access(window: size_t; status: Boolean); stdcall; external webuilib;
 // Base64 encoding. Use this to safely send text based data to the UI.
 function webui_encode(const str: PChar): PChar; stdcall; external webuilib;
 // Base64 decoding. Use this to safely decode received Base64 text from the UI.
@@ -142,8 +122,34 @@ procedure webui_clean; stdcall; external webuilib;
 procedure webui_delete_all_profiles; stdcall; external webuilib;
 // Delete a specific window web-browser local folder profile.
 procedure webui_delete_profile(window: size_t); stdcall; external webuilib;
+// Get the ID of the parent process (The web browser may re-create another new process).
+function webui_get_parent_process_id(window: size_t): size_t; stdcall; external webuilib;
+// Get the ID of the last child process.
+function webui_get_child_process_id(window: size_t): size_t; stdcall; external webuilib;
 
-// -- Interface -----------------------
+// -- JavaScript ----------------------
+
+// Run JavaScript quickly with no waiting for the response.
+procedure webui_run(window: size_t; const script: PChar); stdcall; external webuilib;
+// Run a JavaScript, and get the response back (Make sure your local buffer can hold the response).
+function webui_script(window: size_t; const script: PChar; timeout: size_t; buffer: PChar; buffer_length: size_t): Boolean; stdcall; external webuilib;
+// Chose between Deno and Nodejs runtime for .js and .ts files.
+procedure webui_set_runtime(window: size_t; runtime: size_t); stdcall; external webuilib;
+// Parse argument as integer.
+function webui_get_int(e: Pwebui_event_t): Int64; stdcall; external webuilib;
+// Parse argument as string.
+function webui_get_string(e: Pwebui_event_t): PChar; stdcall; external webuilib;
+// Parse argument as boolean.
+function webui_get_bool(e: Pwebui_event_t): Boolean; stdcall; external webuilib;
+// Return the response to JavaScript as integer.
+procedure webui_return_int(e: Pwebui_event_t; n: Int64); stdcall; external webuilib;
+// Return the response to JavaScript as string.
+procedure webui_return_string(e: Pwebui_event_t; const s: PChar); stdcall; external webuilib;
+// Return the response to JavaScript as boolean.
+procedure webui_return_bool(e: Pwebui_event_t; b: Boolean); stdcall; external webuilib;
+
+// -- Wrapper's Interface -------------
+
 // Bind a specific html element click event with a function. Empty element means all events.
 function webui_interface_bind(window: size_t; const element: PChar; func: TWebuiInterfaceEventProc): size_t; stdcall; external webuilib;
 // When using `webui_interface_bind()` you may need this function to easily set your callback response.
