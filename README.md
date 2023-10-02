@@ -1,15 +1,29 @@
+<div align="center">
+  
+![Logo](https://raw.githubusercontent.com/webui-dev/webui-logo/main/webui_240.png)
+
 # WebUI Pascal v2.4.0
 
-[![Website](https://img.shields.io/circleci/project/github/badges/shields/master?style=for-the-badge)](https://github.com/webui-dev/pascal-webui) [![Website](https://img.shields.io/github/issues/webui-dev/pascal-webui.svg?branch=master&style=for-the-badge&url=https://google.com)](https://github.com/webui-dev/pascal-webui/issues) [![Website](https://img.shields.io/website?label=webui.me&style=for-the-badge&url=https://google.com)](https://webui.me/)
+[![Nightly Build](https://img.shields.io/badge/webui-dev%2Fwebui?style=for-the-badge&label=Nightly%20Build&labelColor=414868&logoColor=C0CAF5)](https://github.com/webui-dev/webui/releases/tag/nightly)
+[![Last commit)](https://img.shields.io/github/last-commit/webui-dev/pascal-webui/main?style=for-the-badge&labelColor=414868&logoColor=C0CAF5)](https://github.com/webui-dev/pascal-webui/commits/main)
+[![Issues](https://img.shields.io/github/issues/webui-dev/pascal-webui?style=for-the-badge&labelColor=414868&logoColor=C0CAF5)](https://github.com/webui-dev/pascal-webui/issues)
+[![Website](https://img.shields.io/website?label=webui.me&style=for-the-badge&url=https://google.com&labelColor=414868&logoColor=C0CAF5)](https://webui.me/)
+[![License](https://img.shields.io/github/license/webui-dev/pascal-webui?style=for-the-badge&label=License&labelColor=414868&logoColor=C0CAF5)](https://github.com/webui-dev/pascal-webui/blob/main/LICENSE)
 
-> Use any web browser as GUI, with Pascal in the backend and HTML5 in the frontend, all in a lightweight Pascal wrapper.
+WebUI is not a web-server solution or a framework, but it allows you to use any web browser as a GUI, with Pascal in the backend and HTML5 in the frontend. All in a lightweight portable lib.
 
-![ScreenShot](screenshot.png)
+<div align="center">
+
+![WebUI](https://github.com/webui-dev/pascal-webui/assets/21068718/f88cc1e0-42a3-4422-bf9a-beeff17cc5d6)
+
+</div>
+
+</div>
 
 ## Features
 
 - Fully Independent (*No need for any third-party runtimes*)
-- Lightweight *~900 Kb* for the whole package & Small memory footprint
+- Lightweight (~300 KB for minimal example; ~400 KB for basic app (no LCL) - including WebUI lib) & Small memory footprint
 - Fast binary communication protocol between WebUI and the browser (*Instead of JSON*)
 - Multi-platform & Multi-Browser
 - Using private profile for safety
@@ -31,7 +45,7 @@ var
 begin
   window := webui_new_window;
 
-  webui_show(window, '<html>Hello World</html>');
+  webui_show(window, '<html>Hello World<script src="/webui.js"></script></html>');
   webui_wait;
 end.
 ```
@@ -40,31 +54,7 @@ end.
 
 ## Documentation
 
- - [Online Documentation](https://webui.me/docs/#/c_api)
-
-## CppCon 2019 Presentation
-
-[Borislav Stanimirov](https://ibob.bg/) explained at [C++ Conference 2019 (*YouTube*)](https://www.youtube.com/watch?v=bbbcZd4cuxg) how beneficial it is to use the web browser as GUI.
-
-<!-- <div align="center">
-  <a href="https://www.youtube.com/watch?v=bbbcZd4cuxg"><img src="https://img.youtube.com/vi/bbbcZd4cuxg/0.jpg" alt="Embrace Modern Technology: Using HTML 5 for GUI in C++ - Borislav Stanimirov - CppCon 2019"></a>
-</div> -->
-
-![ScreenShot](cppcon_2019.png)
-
-## UI & The Web Technologies
-
-Web application UI design is not just about how a product looks but how it works. Using web technologies in your UI makes your product modern and professional, And a well-designed web application will help you make a solid first impression on potential customers. Great web application design also assists you in nurturing leads and increasing conversions. In addition, it makes navigating and using your web app easier for your users.
-
-## Why Use Web Browser?
-
-Today's web browsers have everything a modern UI needs. Web browsers are very sophisticated and optimized. Therefore, using it as a GUI will be an excellent choice. While old legacy GUI lib is complex and outdated, a WebView-based app is still an option. However, a WebView needs a huge SDK to build and many dependencies to run, and it can only provide some features like a real web browser. That is why WebUI uses real web browsers to give you full features of comprehensive web technologies while keeping your software lightweight and portable.
-
-## How does it work?
-
-![ScreenShot](webui_diagram.png)
-
-Think of WebUI like a WebView controller, but instead of embedding the WebView controller in your program, which makes the final program big in size, and non-portable as it needs the WebView runtimes. Instead, by using WebUI, you use a tiny static/dynamic library to run any installed web browser and use it as GUI, which makes your program small, fast, and portable. **All it needs is a web browser**.
+[Online documentation](https://webui.me/docs/#/c_api)
 
 ## Runtime Dependencies Comparison
 
@@ -76,56 +66,44 @@ Think of WebUI like a WebView controller, but instead of embedding the WebView c
 
 ## Supported Web Browsers
 
-| OS | Browser | Status |
-| ------ | ------ | ------ |
-| Windows | Mozilla Firefox | ✔️ |
-| Windows | Google Chrome | ✔️ |
-| Windows | Microsoft Edge | ✔️ |
-| Windows | Chromium | ✔️ |
-| Windows | Yandex | ✔️ |
-| Windows | Brave | ✔️ |
-| Windows | Vivaldi | ✔️ |
-| Windows | Epic | ✔️ |
-| Windows | Opera | *coming soon* |
-| - | - | - |
-| Linux | Mozilla Firefox | ✔️ |
-| Linux | Google Chrome | ✔️ |
-| Linux | Microsoft Edge | ✔️ |
-| Linux | Chromium | ✔️ |
-| Linux | Yandex | ✔️ |
-| Linux | Brave | ✔️ |
-| Linux | Vivaldi | ✔️ |
-| Linux | Epic | *Does Not Exist* |
-| Linux | Opera | *coming soon* |
-| - | - | - |
-| macOS | Mozilla Firefox | ✔️ |
-| macOS | Google Chrome | ✔️ |
-| macOS | Microsoft Edge | ✔️ |
-| macOS | Chromium | ✔️ |
-| macOS | Yandex | ✔️ |
-| macOS | Brave | ✔️ |
-| macOS | Vivaldi | ✔️ |
-| macOS | Epic | ✔️ |
-| macOS | Apple Safari | *coming soon* |
-| macOS | Opera | *coming soon* |
+| Browser | Windows | macOS | Linux |
+| ------ | ------ | ------ | ------ |
+| Mozilla Firefox | ✔️ | ✔️ | ✔️ |
+| Google Chrome | ✔️ | ✔️ | ✔️ |
+| Microsoft Edge | ✔️ | ✔️ | ✔️ |
+| Chromium | ✔️ | ✔️ | ✔️ |
+| Yandex | ✔️ | ✔️ | ✔️ |
+| Brave | ✔️ | ✔️ | ✔️ |
+| Vivaldi | ✔️ | ✔️ | ✔️ |
+| Epic | ✔️ | ✔️ | *not available* |
+| Apple Safari | *not available* | *coming soon* | *not available* |
+| Opera | *coming soon* | *coming soon* | *coming soon* |
 
-## Supported Languages
+## UI & The Web Technologies
 
-| Language | Status | Link |
-| ------ | ------ | ------ |
-| C/C++ | ✔️ | [WebUI](https://github.com/webui-dev/webui) |
-| Python | ✔️ | [Python-WebUI](https://github.com/webui-dev/python-webui) |
-| Pascal | ✔️ | [Pascal-WebUI](https://github.com/webui-dev/pascal-webui) |
-| TypeScript / JavaScript | ✔️ | [Deno-WebUI](https://github.com/webui-dev/deno-webui) |
-| Go | ✔️ | [Go-WebUI](https://github.com/webui-dev/go-webui) |
-| Rust | *Not Complete* | [Rust-WebUI](https://github.com/webui-dev/rust-webui) |
-| V | ✔️ | [V-WebUI](https://github.com/webui-dev/v-webui) |
-| Nim | ✔️ | [Nim-WebUI](https://github.com/webui-dev/nim-webui) |
-| Zig | *Not Complete* | [Zig-WebUI](https://github.com/webui-dev/zig-webui) |
+[Borislav Stanimirov](https://ibob.bg/) discusses using HTML5 in the web browser as GUI at the [C++ Conference 2019 (*YouTube*)](https://www.youtube.com/watch?v=bbbcZd4cuxg).
 
-### License
+<div align="center">
 
-> Licensed under MIT License.
+![CppCon](https://github.com/webui-dev/pascal-webui/assets/21068718/dd5f33ef-1342-407e-8a06-af6287d8e6c6)
+
+</div>
+
+Web application UI design is not just about how a product looks but how it works. Using web technologies in your UI makes your product modern and professional, And a well-designed web application will help you make a solid first impression on potential customers. Great web application design also assists you in nurturing leads and increasing conversions. In addition, it makes navigating and using your web app easier for your users.
+
+### Why Use Web Browsers?
+
+Today's web browsers have everything a modern UI needs. Web browsers are very sophisticated and optimized. Therefore, using it as a GUI will be an excellent choice. While old legacy GUI lib is complex and outdated, a WebView-based app is still an option. However, a WebView needs a huge SDK to build and many dependencies to run, and it can only provide some features like a real web browser. That is why WebUI uses real web browsers to give you full features of comprehensive web technologies while keeping your software lightweight and portable.
+
+### How Does it Work?
+
+![diagram](https://github.com/webui-dev/pascal-webui/assets/21068718/671299d2-05da-4ec9-b1af-28f3d915100c)
+
+Think of WebUI like a WebView controller, but instead of embedding the WebView controller in your program, which makes the final program big in size, and non-portable as it needs the WebView runtimes. Instead, by using WebUI, you use a tiny static/dynamic library to run any installed web browser and use it as GUI, which makes your program small, fast, and portable. **All it needs is a web browser**.
+
+## License
+
+Licensed under the MIT License.
 
 ### Stargazers
 
