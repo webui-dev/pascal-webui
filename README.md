@@ -1,6 +1,6 @@
 <div align="center">
   
-![Logo](https://raw.githubusercontent.com/webui-dev/webui-logo/main/webui_240.png)
+<img src="https://raw.githubusercontent.com/webui-dev/webui-logo/main/webui_240.png" height="200">
 
 # WebUI Pascal v2.4.0
 
@@ -51,6 +51,12 @@ end.
 ```
 
 [More examples](https://github.com/webui-dev/pascal-webui/tree/main/examples)
+
+## Text editor
+
+This [text editor](https://github.com/webui-dev/pascal-webui/tree/main/examples/Lazarus/text%20editor) is a lightweight and portable example written in Free Pascal and JavaScript using WebUI as the GUI.
+
+![Screenshot](https://github.com/webui-dev/pascal-webui/assets/21068718/685a483b-0230-4365-8378-f7808ba0d55c)
 
 ## Documentation
 
