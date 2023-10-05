@@ -11,7 +11,7 @@ const
 
 const
   // Browsers
-  WEBUI_NoBrowser     = 0;  // NoBrowser
+  WEBUI_NoBrowser     = 0;  // No web browser
   WEBUI_AnyBrowser    = 1;  // Default recommended web browser
   WEBUI_Chrome        = 2;  // Google Chrome
   WEBUI_Firefox       = 3;  // Mozilla Firefox
@@ -33,11 +33,9 @@ const
   // Events
   WEBUI_EVENT_DISCONNECTED        = 0; // Window disconnection event
   WEBUI_EVENT_CONNECTED           = 1; // Window connection event
-  WEBUI_EVENT_MULTI_CONNECTION    = 2; // New window connection event
-  WEBUI_EVENT_UNWANTED_CONNECTION = 3; // New unwanted window connection event
-  WEBUI_EVENT_MOUSE_CLICK         = 4; // Mouse click event
-  WEBUI_EVENT_NAVIGATION          = 5; // Window navigation event
-  WEBUI_EVENT_CALLBACK            = 6; // Function call event
+  WEBUI_EVENT_MOUSE_CLICK         = 2; // Mouse click event
+  WEBUI_EVENT_NAVIGATION          = 3; // Window navigation event
+  WEBUI_EVENT_CALLBACK            = 4; // Function call event
 
 // -- Structs -------------------------
 
@@ -94,8 +92,6 @@ function webui_is_shown(window: size_t): Boolean; stdcall; external webuilib;
 procedure webui_set_timeout(second: size_t); stdcall; external webuilib;
 // Set the default embedded HTML favicon
 procedure webui_set_icon(window: size_t; const icon, icon_type: PChar); stdcall; external webuilib;
-// Allow the window URL to be re-used in normal web browsers
-procedure webui_set_multi_access(window: size_t; status: Boolean); stdcall; external webuilib;
 // Base64 encoding. Use this to safely send text based data to the UI.
 function webui_encode(const str: PChar): PChar; stdcall; external webuilib;
 // Base64 decoding. Use this to safely decode received Base64 text from the UI.
