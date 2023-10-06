@@ -4,8 +4,9 @@ interface
 
 const        
   webuilib      = 'webui-2.dll';
-  WEBUI_VERSION = '2.4.0';
-  WEBUI_MAX_IDS = 512; // Max windows, servers and threads
+  WEBUI_VERSION = '2.4.0 (Beta)';
+  WEBUI_MAX_IDS = 256; // Max windows, servers and threads
+  WEBUI_MAX_ARG = 16;  // Max arguments count
 
 // -- Enums/Consts --------------------
 
@@ -31,11 +32,11 @@ const
   WEBUI_RUNTIME_NodeJS = 2; // Use Nodejs runtime for .js files
 
   // Events
-  WEBUI_EVENT_DISCONNECTED        = 0; // Window disconnection event
-  WEBUI_EVENT_CONNECTED           = 1; // Window connection event
-  WEBUI_EVENT_MOUSE_CLICK         = 2; // Mouse click event
-  WEBUI_EVENT_NAVIGATION          = 3; // Window navigation event
-  WEBUI_EVENT_CALLBACK            = 4; // Function call event
+  WEBUI_EVENT_DISCONNECTED = 0; // Window disconnection event
+  WEBUI_EVENT_CONNECTED    = 1; // Window connection event
+  WEBUI_EVENT_MOUSE_CLICK  = 2; // Mouse click event
+  WEBUI_EVENT_NAVIGATION   = 3; // Window navigation event
+  WEBUI_EVENT_CALLBACK     = 4; // Function call event
 
 // -- Structs -------------------------
 
@@ -46,15 +47,13 @@ type
     window: size_t;       // The window object number
     event_type: size_t;   // Event type
     element: PChar;       // HTML element ID
-    data: PChar;          // JavaScript data
-    size: size_t;         // JavaScript data len
     event_number: size_t; // Internal WebUI
   end;
   Pwebui_event_t = ^webui_event_t;
 
   TWebuiEventProc = procedure(e: Pwebui_event_t);
-  TWebuiInterfaceEventProc = procedure(window, event_type: size_t; element, data: PChar; data_size, event_number: size_t);
   TWebuiFileHandler = function(filename: PChar; len: PInteger): PChar;
+  TWebuiInterfaceEventProc = procedure(window, event_type: size_t; element: PChar; event_number: size_t);
 
 // -- Definitions ---------------------
 
@@ -133,12 +132,22 @@ procedure webui_run(window: size_t; const script: PChar); stdcall; external webu
 function webui_script(window: size_t; const script: PChar; timeout: size_t; buffer: PChar; buffer_length: size_t): Boolean; stdcall; external webuilib;
 // Chose between Deno and Nodejs runtime for .js and .ts files.
 procedure webui_set_runtime(window: size_t; runtime: size_t); stdcall; external webuilib;
-// Parse argument as integer.
+// Get an argument as integer at a specific index
+function webui_get_int_at(e: Pwebui_event_t; index: size_t): Int64; stdcall; external webuilib;
+// Get the first argument as integer
 function webui_get_int(e: Pwebui_event_t): Int64; stdcall; external webuilib;
-// Parse argument as string.
+// Get an argument as string at a specific index
+function webui_get_string_at(e: Pwebui_event_t; index: size_t): PChar; stdcall; external webuilib;
+// Get the first argument as string
 function webui_get_string(e: Pwebui_event_t): PChar; stdcall; external webuilib;
-// Parse argument as boolean.
+// Get an argument as boolean at a specific index
+function webui_get_bool_at(e: Pwebui_event_t; index: size_t): Boolean; stdcall; external webuilib;
+// Get the first argument as boolean
 function webui_get_bool(e: Pwebui_event_t): Boolean; stdcall; external webuilib;
+// Get the size in bytes of an argument at a specific index
+function webui_get_size_at(e: Pwebui_event_t; index: size_t): size_t; stdcall; external webuilib;
+// Get size in bytes of the first argument
+function webui_get_size(e: Pwebui_event_t): size_t; stdcall; external webuilib;
 // Return the response to JavaScript as integer.
 procedure webui_return_int(e: Pwebui_event_t; n: Int64); stdcall; external webuilib;
 // Return the response to JavaScript as string.
