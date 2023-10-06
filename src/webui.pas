@@ -2,8 +2,16 @@ unit WebUI;
 
 interface
 
-const        
-  webuilib      = 'webui-2.dll';
+const
+  {$ifdef WINDOWS}
+  libext   = '.dll'; // Windows
+  {$elseif MACOS}
+  libext   = '.dyn'; // MacOS
+  {$else}
+  libext   = '.so';  // Linux
+  {$endif}
+
+  webuilib = 'webui-2'+libext;
   WEBUI_VERSION = '2.4.0 (Beta)';
   WEBUI_MAX_IDS = 256; // Max windows, servers and threads
   WEBUI_MAX_ARG = 16;  // Max arguments count
@@ -40,20 +48,24 @@ const
 
 // -- Structs -------------------------
 
+type
+  size_t = ULONG_PTR; // in case its not defined (some older FPC)
+
 {$packrecords C}
 
 type
-  webui_event_t = record
+  TWebUIEvent = record
     window: size_t;       // The window object number
     event_type: size_t;   // Event type
     element: PChar;       // HTML element ID
     event_number: size_t; // Internal WebUI
+    bind_id: size_t;      // Bind ID
   end;
-  Pwebui_event_t = ^webui_event_t;
+  PWebUIEvent = ^TWebUIEvent;
 
-  TWebuiEventProc = procedure(e: Pwebui_event_t);
-  TWebuiFileHandler = function(filename: PChar; len: PInteger): PChar;
-  TWebuiInterfaceEventProc = procedure(window, event_type: size_t; element: PChar; event_number: size_t);
+  TWebUIEventProc = procedure(e: PWebUIEvent);
+  TWebUIFileHandlerProc = function(filename: PChar; len: PInteger): PChar;
+  TWebUIInterfaceEventProc = procedure(window, event_type: size_t; element: PChar; event_number, bind_id: size_t);
 
 // -- Definitions ---------------------
 
@@ -84,7 +96,7 @@ function webui_set_root_folder(window: size_t; const path: PChar): Boolean; stdc
 // Set the web-server root folder path for all windows. Should be used before `webui_show()`.
 function webui_set_default_root_folder(const path: PChar): Boolean; stdcall; external webuilib; 
 // Set a custom handler to serve files
-procedure webui_set_file_handler(window: size_t; handler: TWebuiFileHandler); stdcall; external webuilib;
+procedure webui_set_file_handler(window: size_t; handler: TWebUIFileHandlerProc); stdcall; external webuilib;
 // Check a specific window if it's still running
 function webui_is_shown(window: size_t): Boolean; stdcall; external webuilib;
 // Set the maximum time in seconds to wait for the browser to start
@@ -133,40 +145,38 @@ function webui_script(window: size_t; const script: PChar; timeout: size_t; buff
 // Chose between Deno and Nodejs runtime for .js and .ts files.
 procedure webui_set_runtime(window: size_t; runtime: size_t); stdcall; external webuilib;
 // Get an argument as integer at a specific index
-function webui_get_int_at(e: Pwebui_event_t; index: size_t): Int64; stdcall; external webuilib;
+function webui_get_int_at(e: PWebUIEvent; index: size_t): Int64; stdcall; external webuilib;
 // Get the first argument as integer
-function webui_get_int(e: Pwebui_event_t): Int64; stdcall; external webuilib;
+function webui_get_int(e: PWebUIEvent): Int64; stdcall; external webuilib;
 // Get an argument as string at a specific index
-function webui_get_string_at(e: Pwebui_event_t; index: size_t): PChar; stdcall; external webuilib;
+function webui_get_string_at(e: PWebUIEvent; index: size_t): PChar; stdcall; external webuilib;
 // Get the first argument as string
-function webui_get_string(e: Pwebui_event_t): PChar; stdcall; external webuilib;
+function webui_get_string(e: PWebUIEvent): PChar; stdcall; external webuilib;
 // Get an argument as boolean at a specific index
-function webui_get_bool_at(e: Pwebui_event_t; index: size_t): Boolean; stdcall; external webuilib;
+function webui_get_bool_at(e: PWebUIEvent; index: size_t): Boolean; stdcall; external webuilib;
 // Get the first argument as boolean
-function webui_get_bool(e: Pwebui_event_t): Boolean; stdcall; external webuilib;
+function webui_get_bool(e: PWebUIEvent): Boolean; stdcall; external webuilib;
 // Get the size in bytes of an argument at a specific index
-function webui_get_size_at(e: Pwebui_event_t; index: size_t): size_t; stdcall; external webuilib;
+function webui_get_size_at(e: PWebUIEvent; index: size_t): size_t; stdcall; external webuilib;
 // Get size in bytes of the first argument
-function webui_get_size(e: Pwebui_event_t): size_t; stdcall; external webuilib;
+function webui_get_size(e: PWebUIEvent): size_t; stdcall; external webuilib;
 // Return the response to JavaScript as integer.
-procedure webui_return_int(e: Pwebui_event_t; n: Int64); stdcall; external webuilib;
+procedure webui_return_int(e: PWebUIEvent; n: Int64); stdcall; external webuilib;
 // Return the response to JavaScript as string.
-procedure webui_return_string(e: Pwebui_event_t; const s: PChar); stdcall; external webuilib;
+procedure webui_return_string(e: PWebUIEvent; const s: PChar); stdcall; external webuilib;
 // Return the response to JavaScript as boolean.
-procedure webui_return_bool(e: Pwebui_event_t; b: Boolean); stdcall; external webuilib;
+procedure webui_return_bool(e: PWebUIEvent; b: Boolean); stdcall; external webuilib;
 
 // -- Wrapper's Interface -------------
 
 // Bind a specific html element click event with a function. Empty element means all events.
-function webui_interface_bind(window: size_t; const element: PChar; func: TWebuiInterfaceEventProc): size_t; stdcall; external webuilib;
+function webui_interface_bind(window: size_t; const element: PChar; func: TWebUIInterfaceEventProc): size_t; stdcall; external webuilib;
 // When using `webui_interface_bind()` you may need this function to easily set your callback response.
 procedure webui_interface_set_response(window, event_number: size_t; const response: PChar); stdcall; external webuilib;
 // Check if the app is still running or not.
 function webui_interface_is_app_running: Boolean; stdcall; external webuilib;
 // Get window unique ID
 function webui_interface_get_window_id(window: size_t): size_t; stdcall; external webuilib;
-// Get a unique ID. Same ID as `webui_bind()`. Return > 0 if bind exists.
-function webui_interface_get_bind_id(window: size_t; const element: PChar): size_t; stdcall; external webuilib;
 
 implementation
 
