@@ -5,7 +5,7 @@ interface
 const
   {$ifdef WINDOWS}
   libext   = '.dll'; // Windows
-  {$elseif MACOS}
+  {$elseif defined(MACOS)}
   libext   = '.dyn'; // MacOS
   {$else}
   libext   = '.so';  // Linux
