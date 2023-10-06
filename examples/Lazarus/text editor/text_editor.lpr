@@ -4,7 +4,7 @@ program text_editor;
 
 uses webui;
 
-procedure btnclose(e: Pwebui_event_t);
+procedure btnclose(e: PWebUIEvent);
 begin
   webui_exit;
 end;

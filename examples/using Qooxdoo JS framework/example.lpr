@@ -8,9 +8,9 @@ var
   content: PChar;
   counter: Integer;
 
-procedure EventHandler(e: Pwebui_event_t);
+procedure EventHandler(e: PWebUIEvent);
 begin
-  writeln('Received callback: ', e^.data);
+  writeln('Received callback: ', webui_get_string(e));
   inc(counter);
   webui_return_string(e, PChar('{"label1": "Message from Free Pascal", "label2": "' + IntToStr(counter) + '"}'));
 end;

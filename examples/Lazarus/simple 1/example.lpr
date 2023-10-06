@@ -2,17 +2,31 @@ program example;
 
 uses webui, SysUtils;
 
-procedure btn1click(e: Pwebui_event_t);
+procedure js_log(window: size_t; message: string);
 var
   s: string;
 begin
-  writeln(e^.element, ' clicked');
-
   s := 'var div = document.createElement("div");';
-  s += 'div.innerText = "Button clicked at '+DateTimeToStr(Now)+'";';
+  s += 'div.innerText = "'+message+'";';
   s += 'document.getElementById("log").append(div);';
 
-  webui_run(e^.window, pchar(s));
+  webui_run(window, pchar(s));
+end;
+
+procedure btn1click(e: PWebUIEvent);
+begin
+  writeln(e^.element, ' clicked');
+
+  js_log(e^.window, 'Button clicked at '+DateTimeToStr(Now));
+end;
+
+procedure func(e: PWebUIEvent);
+begin
+  writeln(e^.element, ' called');
+  writeln('arg 1 = ', webui_get_string_at(e, 0));
+  writeln('arg 2 = ', webui_get_string_at(e, 1));
+
+  js_log(e^.window, 'Pascal function called at '+DateTimeToStr(Now));
 end;
 
 var
@@ -22,6 +36,7 @@ begin
   window := webui_new_window;
 
   webui_bind(window, 'btn1', @btn1click);
+  webui_bind(window, 'func', @func);
 
   webui_set_size(window, 500, 500);
   webui_set_position(window, 500, 250);
