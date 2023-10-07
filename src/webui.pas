@@ -4,11 +4,11 @@ interface
 
 const
   {$ifdef WINDOWS}
-  libext   = '.dll'; // Windows
+  libext = '.dll'; // Windows
   {$elseif defined(MACOS)}
-  libext   = '.dyn'; // MacOS
+  libext = '.dyn'; // MacOS
   {$else}
-  libext   = '.so';  // Linux
+  libext = '.so';  // Linux
   {$endif}
 
   webuilib = 'webui-2'+libext;
@@ -177,6 +177,12 @@ procedure webui_interface_set_response(window, event_number: size_t; const respo
 function webui_interface_is_app_running: Boolean; stdcall; external webuilib;
 // Get window unique ID
 function webui_interface_get_window_id(window: size_t): size_t; stdcall; external webuilib;
+// Get an argument as string at a specific index
+function webui_interface_get_string_at(window, event_number, index: size_t): Pchar; stdcall; external webuilib;
+// Get an argument as integer at a specific index
+function webui_interface_get_int_at(window, event_number, index: size_t): Int64; stdcall; external webuilib;
+// Get an argument as boolean at a specific index
+function webui_interface_get_bool_at(window, event_number, index: size_t): Boolean; stdcall; external webuilib;
 
 implementation
 
