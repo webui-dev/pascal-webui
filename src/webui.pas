@@ -5,7 +5,7 @@ interface
 const
   {$ifdef WINDOWS}
   libext = '.dll'; // Windows
-  {$elseif defined(MACOS)}
+  {$elseif defined(DARWIN)}
   libext = '.dyn'; // MacOS
   {$else}
   libext = '.so';  // Linux
@@ -14,7 +14,7 @@ const
   webuilib = 'webui-2'+libext;
   WEBUI_VERSION = '2.4.0 (Beta)';
   WEBUI_MAX_IDS = 256; // Max windows, servers and threads
-  WEBUI_MAX_ARG = 16;  // Max arguments count
+  WEBUI_MAX_ARG = 16;  // Max allowed argument's index
 
 // -- Enums/Consts --------------------
 
