@@ -49,7 +49,7 @@ const
 // -- Structs -------------------------
 
 type
-  size_t = ULONG_PTR; // in case its not defined (some older FPC)
+  size_t = QWord; // in case its not defined (some FPC installations); QWord since WebUI is x64 only
 
 {$packrecords C}
 
