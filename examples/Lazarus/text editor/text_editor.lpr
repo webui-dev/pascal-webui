@@ -1,7 +1,5 @@
 program text_editor;
 
-{$apptype gui}
-
 uses webui;
 
 procedure btnclose(e: PWebUIEvent);
