@@ -14,7 +14,7 @@
 3. Change target to `Linux` in Project Settings (default is `Win64`)
 4. Compile, done!
 
-![33rsCSUo5W](https://github.com/webui-dev/pascal-webui/assets/21068718/b24b6b7e-013e-418d-a965-8b4255dcd47d)
+![Z7yjV50ybe](https://github.com/webui-dev/pascal-webui/assets/21068718/3252cc28-f55a-4ace-a502-0f0a57468ff5)
 
 ## x64 only
 Note that WebUI is x64 only, its already set up in the Lazarus Project Information file. You may want to change target OS between `Win64`, `Linux` or `MacOS`/`Darwin`.
