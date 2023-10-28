@@ -49,11 +49,8 @@ const
     {$linklib libmsvcrt.a}
     {$linklib libshell32.a}
   {$endif}
-
-  {$ifdef DARWIN}
-    {$fatal This feature is not yet ready}
-  {$endif}
 {$endif}
+
 // -- Enums/Consts --------------------
 
 const
@@ -171,7 +168,7 @@ procedure webui_set_profile(window: size_t; const name, path: PChar); imp;
 function webui_get_url(window: size_t): PChar; imp;
 // Navigate to a specific URL
 procedure webui_navigate(window: size_t; url: PChar); imp;
-// Delete all local web browser profile's folder
+// Free all memory resources. Should be called only at the end.
 procedure webui_clean; imp;
 // Delete all local web-browser profiles folder. It should be called at the end.
 procedure webui_delete_all_profiles; imp;
