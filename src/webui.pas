@@ -7,26 +7,18 @@ uses cthreads;
 {$endif}
 
 const
-  //Windows - OK (shared + static)
-  {$ifdef WINDOWS}  
+  {$if defined(WINDOWS)} // Windows - OK (shared + static)
     webuilib = 'webui-2.dll';
 
     //Uncomment this line if you want to static link WebUI (no .dll dependency)
     //{$define STATICLINK}
-  {$endif}
-
-  //Linux - OK (static)
-  {$ifdef LINUX}
-    //Linux will be static linked
+  {$elseif defined(LINUX)} // Linux - OK (static)
     {$define STATICLINK}
-  {$endif}
-
-  //MacOS - UNTESTED
-  {$ifdef DARWIN}
+  {$elseif defined(DARWIN)} //MacOS - (shared UNTESTED)
     webuilib = 'webui-2.dyn';
   {$endif}
 
-  WEBUI_VERSION = '2.4.0-Beta';
+  WEBUI_VERSION = '2.4.0';
   WEBUI_MAX_IDS = 256; // Max windows, servers and threads
   WEBUI_MAX_ARG = 16;  // Max allowed argument's index
 
@@ -34,11 +26,13 @@ const
   {$linklib webui-2-static.a}
 
   {$ifdef WINDOWS}
-    //order of static libraries is important
-    //if you mess it up, the output executable will have too much imports and dependencies that might not be installed on the machine
+    {
+    Order of static libraries does matter.
+    If you set improper order, the executable output will have too much imports and dependencies that might not be installed on the target machine.
 
-    //"Visual C++ Redistributable for Visual Studio 2015" (blind shot) is required in both shared (DLL) and static linked versions of WebUI
-    //the exact dll that has to exist on target Windows installation is "ucrtbase.dll"
+    "Visual C++ Redistributable for Visual Studio 2015" (blind shot) is required in both shared (DLL) and static linked versions of WebUI.
+    The exact dll that has to exist on target Windows installation is "ucrtbase.dll".
+    }
 
     {$linklib libmingwex.a}
     {$linklib libgcc.a}
@@ -178,6 +172,10 @@ procedure webui_delete_profile(window: size_t); imp;
 function webui_get_parent_process_id(window: size_t): size_t; imp;
 // Get the ID of the last child process.
 function webui_get_child_process_id(window: size_t): size_t; imp;
+// Set a custom web-server network port to be used by WebUI.
+// This can be useful to determine the HTTP link of `webui.js` in case
+// you are trying to use WebUI with an external web-server like NGNIX
+function webui_set_port(window, port: size_t): Boolean; imp;
 
 // -- JavaScript ----------------------
 
@@ -210,6 +208,13 @@ procedure webui_return_string(e: PWebUIEvent; const s: PChar); imp;
 // Return the response to JavaScript as boolean.
 procedure webui_return_bool(e: PWebUIEvent; b: Boolean); imp;
 
+// -- SSL/TLS -------------------------
+
+// Set the SSL/TLS certificate and the private key content, both in PEM
+// format. This works only with `webui-2-secure` library. If set empty WebUI
+// will generate a self-signed certificate.
+function webui_set_tls_certificate(const certificate_pem, private_key_pem: PChar): Boolean; imp;
+
 // -- Wrapper's Interface -------------
 
 // Bind a specific html element click event with a function. Empty element means all events.
@@ -221,7 +226,7 @@ function webui_interface_is_app_running: Boolean; imp;
 // Get window unique ID
 function webui_interface_get_window_id(window: size_t): size_t; imp;
 // Get an argument as string at a specific index
-function webui_interface_get_string_at(window, event_number, index: size_t): Pchar; imp;
+function webui_interface_get_string_at(window, event_number, index: size_t): PChar; imp;
 // Get an argument as integer at a specific index
 function webui_interface_get_int_at(window, event_number, index: size_t): Int64; imp;
 // Get an argument as boolean at a specific index
