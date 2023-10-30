@@ -2,8 +2,10 @@ unit WebUI;
 
 interface
 
-{$ifdef LINUX}
+{$ifdef defined(LINUX)}
 uses cthreads;
+{$elseif defined(DARWIN)}
+uses dynlibs;
 {$endif}
 
 const
@@ -14,8 +16,8 @@ const
     //{$define STATICLINK}
   {$elseif defined(LINUX)} // Linux - OK (static)
     {$define STATICLINK}
-  {$elseif defined(DARWIN)} //MacOS - (shared UNTESTED)
-    webuilib = 'webui-2.dyn';
+  {$elseif defined(DARWIN)} //MacOS - IN PROGERSS (shared)
+    webuilib = 'webui-2.dylib';
   {$endif}
 
   WEBUI_VERSION = '2.4.0';
@@ -96,15 +98,19 @@ type
   TWebUIFileHandlerProc = function(filename: PChar; len: PInteger): PChar;
   TWebUIInterfaceEventProc = procedure(window, event_type: size_t; element: PChar; event_number, bind_id: size_t);
 
-// -- Definitions ---------------------
-
 {$macro on}
 
 {$ifdef STATICLINK}
   {$define imp:=stdcall; external}
-{$else}         
-  {$define imp:=stdcall; external webuilib}
+{$else}
+  {$ifdef DARWIN}
+    {$define imp:=inline}
+  {$else}
+    {$define imp:=stdcall; external webuilib}
+  {$endif}
 {$endif}
+
+// -- Definitions ---------------------
 
 // Create a new webui window object.
 function webui_new_window: size_t; imp;
@@ -232,7 +238,24 @@ function webui_interface_get_int_at(window, event_number, index: size_t): Int64;
 // Get an argument as boolean at a specific index
 function webui_interface_get_bool_at(window, event_number, index: size_t): Boolean; imp;
 
+{$ifdef DARWIN}
+var
+  lib: TLibHandle;
+
+  //bunch of _functions here, as variables
+{$endif}
+
 implementation
+
+{$ifdef DARWIN}
+//bunch of functions here that use _functions from vars (aliases); these functions are inlined so no performance loss
+//why do it like that and not just use functions from "var"? to avoid the need to use () parenthesis if function has no params
+{$endif}
+
+{$ifdef DARWIN}
+initialization
+  //load dylib and all variable _functions
+{$endif}
 
 end.
 
