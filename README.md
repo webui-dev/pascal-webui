@@ -4,11 +4,10 @@
 
 # WebUI Pascal v2.4.0
 
-[![Nightly Build](https://img.shields.io/badge/webui-dev%2Fwebui?style=for-the-badge&label=Nightly%20Build&labelColor=414868&logoColor=C0CAF5)](https://github.com/webui-dev/webui/releases/tag/nightly)
-[![Last commit)](https://img.shields.io/github/last-commit/webui-dev/pascal-webui/main?style=for-the-badge&labelColor=414868&logoColor=C0CAF5)](https://github.com/webui-dev/pascal-webui/commits/main)
-[![Issues](https://img.shields.io/github/issues/webui-dev/pascal-webui?style=for-the-badge&labelColor=414868&logoColor=C0CAF5)](https://github.com/webui-dev/pascal-webui/issues)
-[![Website](https://img.shields.io/website?label=webui.me&style=for-the-badge&url=https://google.com&labelColor=414868&logoColor=C0CAF5)](https://webui.me/)
-[![License](https://img.shields.io/github/license/webui-dev/pascal-webui?style=for-the-badge&label=License&labelColor=414868&logoColor=C0CAF5)](https://github.com/webui-dev/pascal-webui/blob/main/LICENSE)
+[![Nightly Build](https://img.shields.io/badge/webui-dev%2Fwebui?style=for-the-badge&label=Nightly%20Build&labelColor=414868&logo=opensourcehardware&logoColor=C0CAF5)](https://github.com/webui-dev/webui/releases/tag/nightly)
+[![Last commit)](https://img.shields.io/github/last-commit/webui-dev/pascal-webui/main?style=for-the-badge&labelColor=414868&logo=github&logoColor=C0CAF5)](https://github.com/webui-dev/pascal-webui/commits/main)
+[![Issues](https://img.shields.io/github/issues/webui-dev/pascal-webui?style=for-the-badge&labelColor=414868&logo=serverfault&logoColor=C0CAF5)](https://github.com/webui-dev/pascal-webui/issues)
+[![Website](https://img.shields.io/website?label=webui.me&style=for-the-badge&url=https://google.com&labelColor=414868&logo=webtrees&logoColor=C0CAF5)](https://webui.me/)
 
 WebUI is not a web-server solution or a framework, but it allows you to use any web browser as a GUI, with Pascal in the backend and HTML5 in the frontend. All in a lightweight portable lib.
 
@@ -110,7 +109,3 @@ Think of WebUI like a WebView controller, but instead of embedding the WebView c
 ## License
 
 Licensed under the MIT License.
-
-### Stargazers
-
-[![Stargazers repo roster for @webui-dev/pascal-webui](https://reporoster.com/stars/webui-dev/pascal-webui)](https://github.com/webui-dev/pascal-webui/stargazers)
