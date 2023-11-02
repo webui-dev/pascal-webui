@@ -1,22 +1,42 @@
 unit WebUI;
 
+// Make Pascal WebUI compatible with Delphi (actually only DARWIN needs that mode to be compatible)
+{$mode delphi}
+
 interface
 
-{$ifdef defined(LINUX)}
+{$if defined(LINUX)}
 uses cthreads;
 {$elseif defined(DARWIN)}
-uses dynlibs;
+uses dynlibs, SysUtils;
 {$endif}
 
 const
-  {$if defined(WINDOWS)} // Windows - OK (shared + static)
+  //Windows = Dynamic + Static
+  //Linux = Static only
+  //MacOS = Dynamic only
+
+  {$if defined(WINDOWS)}
+    // Windows version works with either dynamic or static linked lib
     webuilib = 'webui-2.dll';
 
-    //Uncomment this line if you want to static link WebUI (no .dll dependency)
+    // Uncomment this line if you want to static link WebUI (no .dll dependency)
     //{$define STATICLINK}
-  {$elseif defined(LINUX)} // Linux - OK (static)
+
+    {$ifdef STATICLINK}
+      // Change file name if you compile the same project for multiple platforms
+      {$linklib webui-2-static.a}
+    {$endif}
+  {$elseif defined(LINUX)}
+    // Linux version is only available as static linked
     {$define STATICLINK}
-  {$elseif defined(DARWIN)} //MacOS - IN PROGERSS (shared)
+
+    {$ifdef STATICLINK}
+      // Change file name if you compile the same project for multiple platforms
+      {$linklib webui-2-static.a}
+    {$endif}
+  {$elseif defined(DARWIN)}
+    // MacOS version is only available as dynamic lib
     webuilib = 'webui-2.dylib';
   {$endif}
 
@@ -24,11 +44,11 @@ const
   WEBUI_MAX_IDS = 256; // Max windows, servers and threads
   WEBUI_MAX_ARG = 16;  // Max allowed argument's index
 
-{$ifdef STATICLINK}  
-  {$linklib webui-2-static.a}
-
+{$ifdef STATICLINK}
   {$ifdef WINDOWS}
     {
+    Include more required libs for static linking on Windows.
+
     Order of static libraries does matter.
     If you set improper order, the executable output will have too much imports and dependencies that might not be installed on the target machine.
 
@@ -182,79 +202,346 @@ function webui_get_child_process_id(window: size_t): size_t; imp;
 // This can be useful to determine the HTTP link of `webui.js` in case
 // you are trying to use WebUI with an external web-server like NGNIX
 function webui_set_port(window, port: size_t): Boolean; imp;
-
-// -- JavaScript ----------------------
-
-// Run JavaScript quickly with no waiting for the response.
-procedure webui_run(window: size_t; const script: PChar); imp;
-// Run a JavaScript, and get the response back (Make sure your local buffer can hold the response).
-function webui_script(window: size_t; const script: PChar; timeout: size_t; buffer: PChar; buffer_length: size_t): Boolean; imp;
-// Chose between Deno and Nodejs runtime for .js and .ts files.
-procedure webui_set_runtime(window: size_t; runtime: size_t); imp;
-// Get an argument as integer at a specific index
-function webui_get_int_at(e: PWebUIEvent; index: size_t): Int64; imp;
-// Get the first argument as integer
-function webui_get_int(e: PWebUIEvent): Int64; imp;
-// Get an argument as string at a specific index
-function webui_get_string_at(e: PWebUIEvent; index: size_t): PChar; imp;
-// Get the first argument as string
-function webui_get_string(e: PWebUIEvent): PChar; imp;
-// Get an argument as boolean at a specific index
-function webui_get_bool_at(e: PWebUIEvent; index: size_t): Boolean; imp;
-// Get the first argument as boolean
-function webui_get_bool(e: PWebUIEvent): Boolean; imp;
-// Get the size in bytes of an argument at a specific index
-function webui_get_size_at(e: PWebUIEvent; index: size_t): size_t; imp;
-// Get size in bytes of the first argument
-function webui_get_size(e: PWebUIEvent): size_t; imp;
-// Return the response to JavaScript as integer.
-procedure webui_return_int(e: PWebUIEvent; n: Int64); imp;
-// Return the response to JavaScript as string.
-procedure webui_return_string(e: PWebUIEvent; const s: PChar); imp;
-// Return the response to JavaScript as boolean.
-procedure webui_return_bool(e: PWebUIEvent; b: Boolean); imp;
-
-// -- SSL/TLS -------------------------
-
-// Set the SSL/TLS certificate and the private key content, both in PEM
-// format. This works only with `webui-2-secure` library. If set empty WebUI
-// will generate a self-signed certificate.
-function webui_set_tls_certificate(const certificate_pem, private_key_pem: PChar): Boolean; imp;
-
-// -- Wrapper's Interface -------------
-
-// Bind a specific html element click event with a function. Empty element means all events.
-function webui_interface_bind(window: size_t; const element: PChar; func: TWebUIInterfaceEventProc): size_t; imp;
-// When using `webui_interface_bind()` you may need this function to easily set your callback response.
-procedure webui_interface_set_response(window, event_number: size_t; const response: PChar); imp;
-// Check if the app is still running or not.
-function webui_interface_is_app_running: Boolean; imp;
-// Get window unique ID
-function webui_interface_get_window_id(window: size_t): size_t; imp;
-// Get an argument as string at a specific index
-function webui_interface_get_string_at(window, event_number, index: size_t): PChar; imp;
-// Get an argument as integer at a specific index
-function webui_interface_get_int_at(window, event_number, index: size_t): Int64; imp;
-// Get an argument as boolean at a specific index
-function webui_interface_get_bool_at(window, event_number, index: size_t): Boolean; imp;
+//
+//// -- JavaScript ----------------------
+//
+//// Run JavaScript quickly with no waiting for the response.
+//procedure webui_run(window: size_t; const script: PChar); imp;
+//// Run a JavaScript, and get the response back (Make sure your local buffer can hold the response).
+//function webui_script(window: size_t; const script: PChar; timeout: size_t; buffer: PChar; buffer_length: size_t): Boolean; imp;
+//// Chose between Deno and Nodejs runtime for .js and .ts files.
+//procedure webui_set_runtime(window: size_t; runtime: size_t); imp;
+//// Get an argument as integer at a specific index
+//function webui_get_int_at(e: PWebUIEvent; index: size_t): Int64; imp;
+//// Get the first argument as integer
+//function webui_get_int(e: PWebUIEvent): Int64; imp;
+//// Get an argument as string at a specific index
+//function webui_get_string_at(e: PWebUIEvent; index: size_t): PChar; imp;
+//// Get the first argument as string
+//function webui_get_string(e: PWebUIEvent): PChar; imp;
+//// Get an argument as boolean at a specific index
+//function webui_get_bool_at(e: PWebUIEvent; index: size_t): Boolean; imp;
+//// Get the first argument as boolean
+//function webui_get_bool(e: PWebUIEvent): Boolean; imp;
+//// Get the size in bytes of an argument at a specific index
+//function webui_get_size_at(e: PWebUIEvent; index: size_t): size_t; imp;
+//// Get size in bytes of the first argument
+//function webui_get_size(e: PWebUIEvent): size_t; imp;
+//// Return the response to JavaScript as integer.
+//procedure webui_return_int(e: PWebUIEvent; n: Int64); imp;
+//// Return the response to JavaScript as string.
+//procedure webui_return_string(e: PWebUIEvent; const s: PChar); imp;
+//// Return the response to JavaScript as boolean.
+//procedure webui_return_bool(e: PWebUIEvent; b: Boolean); imp;
+//
+//// -- SSL/TLS -------------------------
+//
+//// Set the SSL/TLS certificate and the private key content, both in PEM
+//// format. This works only with `webui-2-secure` library. If set empty WebUI
+//// will generate a self-signed certificate.
+//function webui_set_tls_certificate(const certificate_pem, private_key_pem: PChar): Boolean; imp;
+//
+//// -- Wrapper's Interface -------------
+//
+//// Bind a specific html element click event with a function. Empty element means all events.
+//function webui_interface_bind(window: size_t; const element: PChar; func: TWebUIInterfaceEventProc): size_t; imp;
+//// When using `webui_interface_bind()` you may need this function to easily set your callback response.
+//procedure webui_interface_set_response(window, event_number: size_t; const response: PChar); imp;
+//// Check if the app is still running or not.
+//function webui_interface_is_app_running: Boolean; imp;
+//// Get window unique ID
+//function webui_interface_get_window_id(window: size_t): size_t; imp;
+//// Get an argument as string at a specific index
+//function webui_interface_get_string_at(window, event_number, index: size_t): PChar; imp;
+//// Get an argument as integer at a specific index
+//function webui_interface_get_int_at(window, event_number, index: size_t): Int64; imp;
+//// Get an argument as boolean at a specific index
+//function webui_interface_get_bool_at(window, event_number, index: size_t): Boolean; imp;
 
 {$ifdef DARWIN}
 var
   lib: TLibHandle;
 
-  //bunch of _functions here, as variables
-{$endif}
+  // -- Definitions ---------------------
+
+  _webui_new_window: function: size_t;
+  _webui_new_window_id: procedure(window_number: size_t);
+  _webui_get_new_window_id: function: size_t;
+  _webui_bind: function(window: size_t; const element: PChar; func: TWebuiEventProc): size_t;
+  _webui_show: function(window: size_t; const content: PChar): Boolean;
+  _webui_show_browser: function(window: size_t; const content: PChar; browser: size_t): Boolean;
+  _webui_set_kiosk: procedure(window: size_t; status: Boolean);
+  _webui_wait: procedure;
+  _webui_close: procedure(window: size_t);
+  _webui_destroy: procedure(window: size_t);
+  _webui_exit: procedure;
+  _webui_set_root_folder: function(window: size_t; const path: PChar): Boolean;
+  _webui_set_default_root_folder: function(const path: PChar): Boolean;
+  _webui_set_file_handler: procedure(window: size_t; handler: TWebUIFileHandlerProc);
+  _webui_is_shown: function(window: size_t): Boolean;
+  _webui_set_timeout: procedure(second: size_t);
+  _webui_set_icon: procedure(window: size_t; const icon, icon_type: PChar);
+  _webui_encode: function(const str: PChar): PChar;
+  _webui_decode: function(const str: PChar): PChar;
+  _webui_free: procedure(ptr: Pointer);
+  _webui_malloc: function(size: size_t): Pointer;
+  _webui_send_raw: procedure(window: size_t; const func: PChar; raw: Pointer; size: size_t);
+  _webui_set_hide: procedure(window: size_t; status: Boolean);
+  _webui_set_profile: procedure(window: size_t; const name, path: PChar);
+  _webui_set_size: procedure(window: size_t; width, height: UInt32);
+  _webui_set_position: procedure(window: size_t; x, y: UInt32);
+  _webui_clean: procedure;
+  _webui_get_url: function(window: size_t): PChar;
+  _webui_navigate: procedure(window: size_t; url: PChar);
+  _webui_delete_all_profiles: procedure;
+  _webui_delete_profile: procedure(window: size_t);
+  _webui_get_parent_process_id: function(window: size_t): size_t;
+  _webui_get_child_process_id: function(window: size_t): size_t;
+  _webui_set_port: function(window, port: size_t): Boolean;
+
+  // -- JavaScript ----------------------
+
+  // -- SSL/TLS -------------------------
+
+  // -- Wrapper's Interface -------------
 
 implementation
 
-{$ifdef DARWIN}
-//bunch of functions here that use _functions from vars (aliases); these functions are inlined so no performance loss
-//why do it like that and not just use functions from "var"? to avoid the need to use () parenthesis if function has no params
-{$endif}
+// Aliases to dynamically loaded functions
+// Done this way so function (procedure) with no parameters doesnt require to be called with parenthesis "()"
 
-{$ifdef DARWIN}
+// -- Definitions ---------------------
+
+function webui_new_window: size_t;
+begin
+  result := _webui_new_window();
+end;
+
+procedure webui_new_window_id(window_number: size_t); imp;
+begin
+  _webui_new_window_id(window_number);
+end;
+
+function webui_get_new_window_id: size_t; imp;
+begin
+  result := _webui_get_new_window_id;
+end;
+
+function webui_bind(window: size_t; const element: PChar; func: TWebuiEventProc): size_t; imp;
+begin
+  result := _webui_bind(window, element, func);
+end;
+
+function webui_show(window: size_t; const content: PChar): Boolean; imp;
+begin
+  result := _webui_show(window, content);
+end;
+
+function webui_show_browser(window: size_t; const content: PChar; browser: size_t): Boolean; imp;
+begin
+  result := _webui_show_browser(window, content, browser);
+end;
+
+procedure webui_set_kiosk(window: size_t; status: Boolean); imp;
+begin
+  webui_set_kiosk(window, status);
+end;
+
+procedure webui_wait; imp;
+begin
+  _webui_wait();
+end;
+
+procedure webui_close(window: size_t); imp;
+begin
+  _webui_close(window);
+end;
+
+procedure webui_destroy(window: size_t); imp;
+begin
+  _webui_destroy(window);
+end;
+
+procedure webui_exit; imp;
+begin
+  _webui_exit();
+end;
+
+function webui_set_root_folder(window: size_t; const path: PChar): Boolean; imp;
+begin
+  result := _webui_set_root_folder(window, path);
+end;
+
+function webui_set_default_root_folder(const path: PChar): Boolean; imp;
+begin
+  result := _webui_set_default_root_folder(path);
+end;
+
+procedure webui_set_file_handler(window: size_t; handler: TWebUIFileHandlerProc); imp;
+begin
+  _webui_set_file_handler(window, handler);
+end;
+
+function webui_is_shown(window: size_t): Boolean; imp;
+begin
+  result := _webui_is_shown(window);
+end;
+
+procedure webui_set_timeout(second: size_t); imp;
+begin
+  _webui_set_timeout(second);
+end;
+
+procedure webui_set_icon(window: size_t; const icon, icon_type: PChar); imp;
+begin
+  _webui_set_icon(window, icon, icon_type);
+end;
+
+function webui_encode(const str: PChar): PChar; imp;
+begin
+  result := _webui_encode(str);
+end;
+
+function webui_decode(const str: PChar): PChar; imp;
+begin
+  result := _webui_decode(str);
+end;
+
+procedure webui_free(ptr: Pointer); imp;
+begin
+  _webui_free(ptr);
+end;
+
+function webui_malloc(size: size_t): Pointer; imp;
+begin
+  result := _webui_malloc(size);
+end;
+
+procedure webui_send_raw(window: size_t; const func: PChar; raw: Pointer; size: size_t); imp;
+begin
+  _webui_send_raw(window, func, raw, size);
+end;
+
+procedure webui_set_hide(window: size_t; status: Boolean); imp;
+begin
+  _webui_set_hide(window, status);
+end;
+
+procedure webui_set_size(window: size_t; width, height: UInt32); imp;
+begin
+  _webui_set_size(window, width, height);
+end;
+
+procedure webui_set_position(window: size_t; x, y: UInt32); imp;
+begin
+  _webui_set_position(window, x, y);
+end;
+
+procedure webui_set_profile(window: size_t; const name, path: PChar); imp;
+begin
+  _webui_set_profile(window, name, path);
+end;
+
+function webui_get_url(window: size_t): PChar; imp;
+begin
+  result := _webui_get_url(window);
+end;
+
+procedure webui_navigate(window: size_t; url: PChar); imp;
+begin
+  _webui_navigate(window, url);
+end;
+
+procedure webui_clean; imp;
+begin
+  _webui_clean();
+end;
+
+procedure webui_delete_all_profiles; imp;
+begin
+  _webui_delete_all_profiles();
+end;
+
+procedure webui_delete_profile(window: size_t); imp;
+begin
+  _webui_delete_profile(window);
+end;
+
+function webui_get_parent_process_id(window: size_t): size_t; imp;
+begin
+  result := _webui_get_parent_process_id(window);
+end;
+
+function webui_get_child_process_id(window: size_t): size_t; imp;
+begin
+  result := _webui_get_child_process_id(window);
+end;
+
+function webui_set_port(window, port: size_t): Boolean; imp; 
+begin
+  result := _webui_set_port(window, port);
+end;
+
+// -- JavaScript ----------------------
+
+// -- SSL/TLS -------------------------
+
+// -- Wrapper's Interface -------------
+
 initialization
-  //load dylib and all variable _functions
+  lib := dynlibs.LoadLibrary(ExtractFilePath(ParamStr(0))+webuilib);
+  if lib = 0 then raise Exception.Create('Could not load '+webuilib);
+
+  // -- Definitions ---------------------
+
+  _webui_new_window              :=  dynlibs.GetProcAddress(lib, 'webui_new_window');
+  _webui_new_window_id           :=  dynlibs.GetProcAddress(lib, 'webui_new_window_id');
+  _webui_get_new_window_id       :=  dynlibs.GetProcAddress(lib, 'webui_get_new_window_id');
+  _webui_bind                    :=  dynlibs.GetProcAddress(lib, 'webui_bind');
+  _webui_show                    :=  dynlibs.GetProcAddress(lib, 'webui_show');
+  _webui_show_browser            :=  dynlibs.GetProcAddress(lib, 'webui_show_browser');
+  _webui_set_kiosk               :=  dynlibs.GetProcAddress(lib, 'webui_set_kiosk');
+  _webui_wait                    :=  dynlibs.GetProcAddress(lib, 'webui_wait');
+  _webui_close                   :=  dynlibs.GetProcAddress(lib, 'webui_close');
+  _webui_destroy                 :=  dynlibs.GetProcAddress(lib, 'webui_destroy');
+  _webui_exit                    :=  dynlibs.GetProcAddress(lib, 'webui_exit');
+  _webui_set_root_folder         :=  dynlibs.GetProcAddress(lib, 'webui_set_root_folder');
+  _webui_set_default_root_folder :=  dynlibs.GetProcAddress(lib, 'webui_set_default_root_folder');
+  _webui_set_file_handler        :=  dynlibs.GetProcAddress(lib, 'webui_set_file_handler');
+  _webui_is_shown                :=  dynlibs.GetProcAddress(lib, 'webui_is_shown');
+  _webui_set_timeout             :=  dynlibs.GetProcAddress(lib, 'webui_set_timeout');
+  _webui_set_icon                :=  dynlibs.GetProcAddress(lib, 'webui_set_icon');
+  _webui_encode                  :=  dynlibs.GetProcAddress(lib, 'webui_encode');
+  _webui_decode                  :=  dynlibs.GetProcAddress(lib, 'webui_decode');
+  _webui_free                    :=  dynlibs.GetProcAddress(lib, 'webui_free');
+  _webui_malloc                  :=  dynlibs.GetProcAddress(lib, 'webui_malloc');
+  _webui_send_raw                :=  dynlibs.GetProcAddress(lib, 'webui_send_raw');
+  _webui_set_hide                :=  dynlibs.GetProcAddress(lib, 'webui_set_hide');
+  _webui_set_profile             :=  dynlibs.GetProcAddress(lib, 'webui_set_profile');
+  _webui_set_size                :=  dynlibs.GetProcAddress(lib, 'webui_set_size');
+  _webui_set_position            :=  dynlibs.GetProcAddress(lib, 'webui_set_position');
+  _webui_clean                   :=  dynlibs.GetProcAddress(lib, 'webui_clean');
+  _webui_get_url                 :=  dynlibs.GetProcAddress(lib, 'webui_get_url');
+  _webui_navigate                :=  dynlibs.GetProcAddress(lib, 'webui_navigate');
+  _webui_delete_all_profiles     :=  dynlibs.GetProcAddress(lib, 'webui_delete_all_profiles');
+  _webui_delete_profile          :=  dynlibs.GetProcAddress(lib, 'webui_delete_profile');
+  _webui_get_parent_process_id   :=  dynlibs.GetProcAddress(lib, 'webui_get_parent_process_id');
+  _webui_get_child_process_id    :=  dynlibs.GetProcAddress(lib, 'webui_get_child_process_id');
+  _webui_set_port                :=  dynlibs.GetProcAddress(lib, 'webui_set_port');
+
+  // -- JavaScript ----------------------
+
+  // -- SSL/TLS -------------------------
+
+  // -- Wrapper's Interface -------------
+
+finalization
+  if lib <> 0 then dynlibs.FreeLibrary(lib);
+
+{$else}
+
+implementation
+
 {$endif}
 
 end.
