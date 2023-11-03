@@ -259,6 +259,8 @@ function webui_interface_get_int_at(window, event_number, index: size_t): Int64;
 function webui_interface_get_bool_at(window, event_number, index: size_t): Boolean; imp;
 
 {$ifdef DARWIN}
+implementation
+
 var
   lib: TLibHandle;
 
@@ -330,8 +332,6 @@ var
   _webui_interface_get_int_at: function(window, event_number, index: size_t): Int64; stdcall;
   _webui_interface_get_bool_at: function(window, event_number, index: size_t): Boolean; stdcall;
 
-implementation
-
 // Aliases to dynamically loaded functions
 // Done this way so function (procedure) with no parameters doesnt require to be called with parenthesis "()"
 
@@ -342,284 +342,284 @@ begin
   result := _webui_new_window();
 end;
 
-procedure webui_new_window_id(window_number: size_t); imp;
+procedure webui_new_window_id(window_number: size_t);
 begin
   _webui_new_window_id(window_number);
 end;
 
-function webui_get_new_window_id: size_t; imp;
+function webui_get_new_window_id: size_t;
 begin
   result := _webui_get_new_window_id;
 end;
 
-function webui_bind(window: size_t; const element: PChar; func: TWebuiEventProc): size_t; imp;
+function webui_bind(window: size_t; const element: PChar; func: TWebuiEventProc): size_t;
 begin
   result := _webui_bind(window, element, func);
 end;
 
-function webui_show(window: size_t; const content: PChar): Boolean; imp;
+function webui_show(window: size_t; const content: PChar): Boolean;
 begin
   result := _webui_show(window, content);
 end;
 
-function webui_show_browser(window: size_t; const content: PChar; browser: size_t): Boolean; imp;
+function webui_show_browser(window: size_t; const content: PChar; browser: size_t): Boolean;
 begin
   result := _webui_show_browser(window, content, browser);
 end;
 
-procedure webui_set_kiosk(window: size_t; status: Boolean); imp;
+procedure webui_set_kiosk(window: size_t; status: Boolean);
 begin
   _webui_set_kiosk(window, status);
 end;
 
-procedure webui_wait; imp;
+procedure webui_wait;
 begin
   _webui_wait();
 end;
 
-procedure webui_close(window: size_t); imp;
+procedure webui_close(window: size_t);
 begin
   _webui_close(window);
 end;
 
-procedure webui_destroy(window: size_t); imp;
+procedure webui_destroy(window: size_t);
 begin
   _webui_destroy(window);
 end;
 
-procedure webui_exit; imp;
+procedure webui_exit;
 begin
   _webui_exit();
 end;
 
-function webui_set_root_folder(window: size_t; const path: PChar): Boolean; imp;
+function webui_set_root_folder(window: size_t; const path: PChar): Boolean;
 begin
   result := _webui_set_root_folder(window, path);
 end;
 
-function webui_set_default_root_folder(const path: PChar): Boolean; imp;
+function webui_set_default_root_folder(const path: PChar): Boolean;
 begin
   result := _webui_set_default_root_folder(path);
 end;
 
-procedure webui_set_file_handler(window: size_t; handler: TWebUIFileHandlerProc); imp;
+procedure webui_set_file_handler(window: size_t; handler: TWebUIFileHandlerProc);
 begin
   _webui_set_file_handler(window, handler);
 end;
 
-function webui_is_shown(window: size_t): Boolean; imp;
+function webui_is_shown(window: size_t): Boolean;
 begin
   result := _webui_is_shown(window);
 end;
 
-procedure webui_set_timeout(second: size_t); imp;
+procedure webui_set_timeout(second: size_t);
 begin
   _webui_set_timeout(second);
 end;
 
-procedure webui_set_icon(window: size_t; const icon, icon_type: PChar); imp;
+procedure webui_set_icon(window: size_t; const icon, icon_type: PChar);
 begin
   _webui_set_icon(window, icon, icon_type);
 end;
 
-function webui_encode(const str: PChar): PChar; imp;
+function webui_encode(const str: PChar): PChar;
 begin
   result := _webui_encode(str);
 end;
 
-function webui_decode(const str: PChar): PChar; imp;
+function webui_decode(const str: PChar): PChar;
 begin
   result := _webui_decode(str);
 end;
 
-procedure webui_free(ptr: Pointer); imp;
+procedure webui_free(ptr: Pointer);
 begin
   _webui_free(ptr);
 end;
 
-function webui_malloc(size: size_t): Pointer; imp;
+function webui_malloc(size: size_t): Pointer;
 begin
   result := _webui_malloc(size);
 end;
 
-procedure webui_send_raw(window: size_t; const func: PChar; raw: Pointer; size: size_t); imp;
+procedure webui_send_raw(window: size_t; const func: PChar; raw: Pointer; size: size_t);
 begin
   _webui_send_raw(window, func, raw, size);
 end;
 
-procedure webui_set_hide(window: size_t; status: Boolean); imp;
+procedure webui_set_hide(window: size_t; status: Boolean);
 begin
   _webui_set_hide(window, status);
 end;
 
-procedure webui_set_size(window: size_t; width, height: UInt32); imp;
+procedure webui_set_size(window: size_t; width, height: UInt32);
 begin
   _webui_set_size(window, width, height);
 end;
 
-procedure webui_set_position(window: size_t; x, y: UInt32); imp;
+procedure webui_set_position(window: size_t; x, y: UInt32);
 begin
   _webui_set_position(window, x, y);
 end;
 
-procedure webui_set_profile(window: size_t; const name, path: PChar); imp;
+procedure webui_set_profile(window: size_t; const name, path: PChar);
 begin
   _webui_set_profile(window, name, path);
 end;
 
-function webui_get_url(window: size_t): PChar; imp;
+function webui_get_url(window: size_t): PChar;
 begin
   result := _webui_get_url(window);
 end;
 
-procedure webui_navigate(window: size_t; url: PChar); imp;
+procedure webui_navigate(window: size_t; url: PChar);
 begin
   _webui_navigate(window, url);
 end;
 
-procedure webui_clean; imp;
+procedure webui_clean;
 begin
   _webui_clean();
 end;
 
-procedure webui_delete_all_profiles; imp;
+procedure webui_delete_all_profiles;
 begin
   _webui_delete_all_profiles();
 end;
 
-procedure webui_delete_profile(window: size_t); imp;
+procedure webui_delete_profile(window: size_t);
 begin
   _webui_delete_profile(window);
 end;
 
-function webui_get_parent_process_id(window: size_t): size_t; imp;
+function webui_get_parent_process_id(window: size_t): size_t;
 begin
   result := _webui_get_parent_process_id(window);
 end;
 
-function webui_get_child_process_id(window: size_t): size_t; imp;
+function webui_get_child_process_id(window: size_t): size_t;
 begin
   result := _webui_get_child_process_id(window);
 end;
 
-function webui_set_port(window, port: size_t): Boolean; imp; 
+function webui_set_port(window, port: size_t): Boolean;
 begin
   result := _webui_set_port(window, port);
 end;
 
 // -- JavaScript ----------------------
 
-procedure webui_run(window: size_t; const script: PChar); imp;
+procedure webui_run(window: size_t; const script: PChar);
 begin
   _webui_run(window, script);
 end;
 
-function webui_script(window: size_t; const script: PChar; timeout: size_t; buffer: PChar; buffer_length: size_t): Boolean; imp;
-begin 
+function webui_script(window: size_t; const script: PChar; timeout: size_t; buffer: PChar; buffer_length: size_t): Boolean;
+begin
   result := _webui_script(window, script, timeout, buffer, buffer_length);
 end;
 
-procedure webui_set_runtime(window: size_t; runtime: size_t); imp;
+procedure webui_set_runtime(window: size_t; runtime: size_t);
 begin
   _webui_set_runtime(window, runtime);
 end;
 
-function webui_get_int_at(e: PWebUIEvent; index: size_t): Int64; imp;
-begin  
+function webui_get_int_at(e: PWebUIEvent; index: size_t): Int64;
+begin
   result := _webui_get_int_at(e, index);
 end;
 
-function webui_get_int(e: PWebUIEvent): Int64; imp;
-begin   
+function webui_get_int(e: PWebUIEvent): Int64;
+begin
   result := _webui_get_int(e);
 end;
 
-function webui_get_string_at(e: PWebUIEvent; index: size_t): PChar; imp;
-begin 
+function webui_get_string_at(e: PWebUIEvent; index: size_t): PChar;
+begin
   result := _webui_get_string_at(e, index);
 end;
 
-function webui_get_string(e: PWebUIEvent): PChar; imp;
-begin   
+function webui_get_string(e: PWebUIEvent): PChar;
+begin
   result := _webui_get_string(e);
 end;
 
-function webui_get_bool_at(e: PWebUIEvent; index: size_t): Boolean; imp;
-begin  
+function webui_get_bool_at(e: PWebUIEvent; index: size_t): Boolean;
+begin
   result := _webui_get_bool_at(e, index);
 end;
 
-function webui_get_bool(e: PWebUIEvent): Boolean; imp;
-begin 
+function webui_get_bool(e: PWebUIEvent): Boolean;
+begin
   result := _webui_get_bool(e);
 end;
 
-function webui_get_size_at(e: PWebUIEvent; index: size_t): size_t; imp;
-begin  
+function webui_get_size_at(e: PWebUIEvent; index: size_t): size_t;
+begin
   result := _webui_get_size_at(e, index);
 end;
 
-function webui_get_size(e: PWebUIEvent): size_t; imp;
+function webui_get_size(e: PWebUIEvent): size_t;
 begin
   result := _webui_get_size(e);
 end;
 
-procedure webui_return_int(e: PWebUIEvent; n: Int64); imp;
+procedure webui_return_int(e: PWebUIEvent; n: Int64);
 begin
   _webui_return_int(e, n);
 end;
 
-procedure webui_return_string(e: PWebUIEvent; const s: PChar); imp;
+procedure webui_return_string(e: PWebUIEvent; const s: PChar);
 begin
   _webui_return_string(e, s);
 end;
 
-procedure webui_return_bool(e: PWebUIEvent; b: Boolean); imp;
+procedure webui_return_bool(e: PWebUIEvent; b: Boolean);
 begin
   _webui_return_bool(e, b);
 end;
 
 // -- SSL/TLS -------------------------
 
-function webui_set_tls_certificate(const certificate_pem, private_key_pem: PChar): Boolean; imp;
+function webui_set_tls_certificate(const certificate_pem, private_key_pem: PChar): Boolean;
 begin
   result := _webui_set_tls_certificate(certificate_pem, private_key_pem);
 end;
 
 // -- Wrapper's Interface -------------
 
-function webui_interface_bind(window: size_t; const element: PChar; func: TWebUIInterfaceEventProc): size_t; imp;     
-begin  
+function webui_interface_bind(window: size_t; const element: PChar; func: TWebUIInterfaceEventProc): size_t;
+begin
   result := _webui_interface_bind(window, element, func);
 end;
 
-procedure webui_interface_set_response(window, event_number: size_t; const response: PChar); imp;  
+procedure webui_interface_set_response(window, event_number: size_t; const response: PChar);
 begin
   _webui_interface_set_response(window, event_number, response);
 end;
 
-function webui_interface_is_app_running: Boolean; imp;           
-begin  
+function webui_interface_is_app_running: Boolean;
+begin
   result := _webui_interface_is_app_running();
 end;
 
-function webui_interface_get_window_id(window: size_t): size_t; imp;    
-begin  
+function webui_interface_get_window_id(window: size_t): size_t;
+begin
   result := _webui_interface_get_window_id(window);
 end;
 
-function webui_interface_get_string_at(window, event_number, index: size_t): PChar; imp;   
-begin 
+function webui_interface_get_string_at(window, event_number, index: size_t): PChar;
+begin
   result := _webui_interface_get_string_at(window, event_number, index);
 end;
 
-function webui_interface_get_int_at(window, event_number, index: size_t): Int64; imp;  
-begin  
+function webui_interface_get_int_at(window, event_number, index: size_t): Int64;
+begin
   result := _webui_interface_get_int_at(window, event_number, index);
 end;
 
-function webui_interface_get_bool_at(window, event_number, index: size_t): Boolean; imp;
-begin      
+function webui_interface_get_bool_at(window, event_number, index: size_t): Boolean;
+begin
   result := _webui_interface_get_bool_at(window, event_number, index);
 end;
 
