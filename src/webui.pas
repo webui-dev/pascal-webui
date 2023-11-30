@@ -18,7 +18,7 @@ const
     webuilib = 'webui-2.dyn';
   {$endif}
 
-  WEBUI_VERSION = '2.4.0';
+  WEBUI_VERSION = '2.4.2';
   WEBUI_MAX_IDS = 256; // Max windows, servers and threads
   WEBUI_MAX_ARG = 16;  // Max allowed argument's index
 
@@ -160,6 +160,8 @@ procedure webui_set_position(window: size_t; x, y: UInt32); imp;
 procedure webui_set_profile(window: size_t; const name, path: PChar); imp;
 // Get the full current URL
 function webui_get_url(window: size_t): PChar; imp;
+// Allow a specific window address to be accessible from a public network
+procedure webui_set_public(window: size_t; status: boolean); imp;
 // Navigate to a specific URL
 procedure webui_navigate(window: size_t; url: PChar); imp;
 // Free all memory resources. Should be called only at the end.
@@ -176,6 +178,13 @@ function webui_get_child_process_id(window: size_t): size_t; imp;
 // This can be useful to determine the HTTP link of `webui.js` in case
 // you are trying to use WebUI with an external web-server like NGNIX
 function webui_set_port(window, port: size_t): Boolean; imp;
+
+// -- SSL/TLS -------------------------
+
+// Set the SSL/TLS certificate and the private key content, both in PEM
+// format. This works only with `webui-2-secure` library. If set empty WebUI
+// will generate a self-signed certificate.
+function webui_set_tls_certificate(const certificate_pem, private_key_pem: PChar): Boolean; imp;
 
 // -- JavaScript ----------------------
 
@@ -208,13 +217,6 @@ procedure webui_return_string(e: PWebUIEvent; const s: PChar); imp;
 // Return the response to JavaScript as boolean.
 procedure webui_return_bool(e: PWebUIEvent; b: Boolean); imp;
 
-// -- SSL/TLS -------------------------
-
-// Set the SSL/TLS certificate and the private key content, both in PEM
-// format. This works only with `webui-2-secure` library. If set empty WebUI
-// will generate a self-signed certificate.
-function webui_set_tls_certificate(const certificate_pem, private_key_pem: PChar): Boolean; imp;
-
 // -- Wrapper's Interface -------------
 
 // Bind a specific html element click event with a function. Empty element means all events.
@@ -231,6 +233,8 @@ function webui_interface_get_string_at(window, event_number, index: size_t): PCh
 function webui_interface_get_int_at(window, event_number, index: size_t): Int64; imp;
 // Get an argument as boolean at a specific index
 function webui_interface_get_bool_at(window, event_number, index: size_t): Boolean; imp;
+// Get the size in bytes of an argument at a specific index
+function webui_interface_get_size_at(window, event_number, index: size_t): size_t; imp;
 
 implementation
 
