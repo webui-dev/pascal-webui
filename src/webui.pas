@@ -139,6 +139,8 @@ procedure webui_set_size(window: size_t; width, height: UInt32); stdcall; extern
 procedure webui_set_position(window: size_t; x, y: UInt32); stdcall; external {$ifndef STATICLINK}webuilib{$endif};
 // Set the web browser profile to use. An empty `name` and `path` means the default user profile. Need to be called before `webui_show()`.
 procedure webui_set_profile(window: size_t; const name, path: PAnsiChar); stdcall; external {$ifndef STATICLINK}webuilib{$endif};
+// Set the web browser proxy_server to use. Need to be called before `webui_show()`
+procedure webui_set_proxy(window: size_t; const proxy_server: PAnsiChar); stdcall; external {$ifndef STATICLINK}webuilib{$endif};
 // Get the full current URL
 function webui_get_url(window: size_t): PAnsiChar; stdcall; external {$ifndef STATICLINK}webuilib{$endif};
 // Allow a specific window address to be accessible from a public network
