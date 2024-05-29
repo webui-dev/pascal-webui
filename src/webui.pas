@@ -18,7 +18,7 @@ const
     webuilib = 'webui-2.dyn';
   {$endif}
 
-  WEBUI_VERSION = '2.4.2';
+  WEBUI_VERSION = '2.5.0-Beta-1';
   WEBUI_MAX_IDS = 256; // Max windows, servers and threads
   WEBUI_MAX_ARG = 16;  // Max allowed argument's index
 
@@ -67,6 +67,9 @@ const
   WEBUI_EVENT_NAVIGATION   = 3; // Window navigation event
   WEBUI_EVENT_CALLBACK     = 4; // Function call event
 
+  // Configs
+  WEBUI_CONFIG_SHOW_WAIT_CONNECTION = 0;
+
 // -- Structs -------------------------
 
 type
@@ -99,6 +102,8 @@ function webui_bind(window: size_t; const element: PAnsiChar; func: TWebuiEventP
 function webui_show(window: size_t; const content: PAnsiChar): Boolean; stdcall; external {$ifndef STATICLINK}webuilib{$endif};
 // Same as webui_show(). But with a specific web browser.
 function webui_show_browser(window: size_t; const content: PAnsiChar; browser: size_t): Boolean; stdcall; external {$ifndef STATICLINK}webuilib{$endif};
+// Show a WebView window using embedded HTML, or a file. If the window is already
+function webui_show_wv(window: size_t; const content: PAnsiChar): Boolean; stdcall; external {$ifndef STATICLINK}webuilib{$endif};
 // Set the window in Kiosk mode (Full screen)
 procedure webui_set_kiosk(window: size_t; status: Boolean); stdcall; external {$ifndef STATICLINK}webuilib{$endif};
 // Wait until all opened windows get closed.
@@ -161,6 +166,8 @@ function webui_get_child_process_id(window: size_t): size_t; stdcall; external {
 // This can be useful to determine the HTTP link of `webui.js` in case
 // you are trying to use WebUI with an external web-server like NGNIX
 function webui_set_port(window, port: size_t): Boolean; stdcall; external {$ifndef STATICLINK}webuilib{$endif};
+// Control the WebUI behaviour. It's better to call at the beginning.
+procedure webui_config(option: size_t; status: Boolean); stdcall; external {$ifndef STATICLINK}webuilib{$endif};
 
 // -- SSL/TLS -------------------------
 
@@ -177,10 +184,16 @@ procedure webui_run(window: size_t; const script: PAnsiChar); stdcall; external 
 function webui_script(window: size_t; const script: PAnsiChar; timeout: size_t; buffer: PAnsiChar; buffer_length: size_t): Boolean; stdcall; external {$ifndef STATICLINK}webuilib{$endif};
 // Chose between Deno and Nodejs runtime for .js and .ts files.
 procedure webui_set_runtime(window: size_t; runtime: size_t); stdcall; external {$ifndef STATICLINK}webuilib{$endif};
+// Get how many arguments there are in an event.
+function webui_get_count(e: PWebUIEvent): size_t; stdcall; external {$ifndef STATICLINK}webuilib{$endif};
 // Get an argument as integer at a specific index
 function webui_get_int_at(e: PWebUIEvent; index: size_t): Int64; stdcall; external {$ifndef STATICLINK}webuilib{$endif};
 // Get the first argument as integer
 function webui_get_int(e: PWebUIEvent): Int64; stdcall; external {$ifndef STATICLINK}webuilib{$endif};
+// Get an argument as float at a specific index
+function webui_get_float_at(e: PWebUIEvent; index: size_t): Double; stdcall; external {$ifndef STATICLINK}webuilib{$endif};
+// Get the first argument as float
+function webui_get_float(e: PWebUIEvent): Double; stdcall; external {$ifndef STATICLINK}webuilib{$endif};
 // Get an argument as string at a specific index
 function webui_get_string_at(e: PWebUIEvent; index: size_t): PAnsiChar; stdcall; external {$ifndef STATICLINK}webuilib{$endif};
 // Get the first argument as string
