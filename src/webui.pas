@@ -208,6 +208,8 @@ function webui_get_size_at(e: PWebUIEvent; index: size_t): size_t; stdcall; exte
 function webui_get_size(e: PWebUIEvent): size_t; stdcall; external {$ifndef STATICLINK}webuilib{$endif};
 // Return the response to JavaScript as integer.
 procedure webui_return_int(e: PWebUIEvent; n: Int64); stdcall; external {$ifndef STATICLINK}webuilib{$endif};
+// Return the response to JavaScript as float.
+procedure webui_return_float(e: PWebUIEvent; f: Double); stdcall; external {$ifndef STATICLINK}webuilib{$endif};
 // Return the response to JavaScript as string.
 procedure webui_return_string(e: PWebUIEvent; const s: PAnsiChar); stdcall; external {$ifndef STATICLINK}webuilib{$endif};
 // Return the response to JavaScript as boolean.
