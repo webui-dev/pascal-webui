@@ -18,9 +18,7 @@ const
     webuilib = 'webui-2.dyn';
   {$endif}
 
-  WEBUI_VERSION = '2.5.0-Beta-1';
-  WEBUI_MAX_IDS = 256; // Max windows, servers and threads
-  WEBUI_MAX_ARG = 16;  // Max allowed argument's index
+  WEBUI_VERSION = '2.5.0-beta.1';
 
 {$ifdef STATICLINK}
   {$linklib webui-2-static.a}
@@ -68,7 +66,10 @@ const
   WEBUI_EVENT_CALLBACK     = 4; // Function call event
 
   // Configs
+  // Control if `webui_show()`, `webui_show_browser()`, and `webui_show_wv()` wait for window to connect before returning. Default: True
   WEBUI_CONFIG_SHOW_WAIT_CONNECTION = 0;
+  // Control if WebUI processes events in a single thread (`True`) or non-blocking threads (`False`). Default: False
+  WEBUI_CONFIG_UI_EVENT_BLOCKING    = 1;
 
 // -- Structs -------------------------
 
@@ -98,6 +99,8 @@ procedure webui_new_window_id(window_number: size_t); stdcall; external {$ifndef
 function webui_get_new_window_id: size_t; stdcall; external {$ifndef STATICLINK}webuilib{$endif};
 // Bind a specific html element click event with a function. Empty element means all events.
 function webui_bind(window: size_t; const element: PAnsiChar; func: TWebuiEventProc): size_t; stdcall; external {$ifndef STATICLINK}webuilib{$endif};
+// Get the recommended web browser ID to use. If you are already using one, this function will return the same ID.
+function webui_get_best_browser(window: size_t): size_t; stdcall; external {$ifndef STATICLINK}webuilib{$endif};
 // Show a window using a embedded HTML, or a file. If the window is already opened then it will be refreshed.
 function webui_show(window: size_t; const content: PAnsiChar): Boolean; stdcall; external {$ifndef STATICLINK}webuilib{$endif};
 // Same as webui_show(). But with a specific web browser.
@@ -167,7 +170,12 @@ function webui_get_child_process_id(window: size_t): size_t; stdcall; external {
 // you are trying to use WebUI with an external web-server like NGNIX
 function webui_set_port(window, port: size_t): Boolean; stdcall; external {$ifndef STATICLINK}webuilib{$endif};
 // Control the WebUI behaviour. It's better to call at the beginning.
-procedure webui_config(option: size_t; status: Boolean); stdcall; external {$ifndef STATICLINK}webuilib{$endif};
+procedure webui_set_config(option: Integer; status: Boolean); stdcall; external {$ifndef STATICLINK}webuilib{$endif};
+// Control if UI events comming from this window should be processed
+// one a time in a single blocking thread `True`, or process every event in
+// a new non-blocking thread `False`. This update single window. You can use
+// `webui_set_config(ui_event_blocking, ...)` to update all windows.
+procedure webui_set_event_blocking(window: size_t; status: Boolean); stdcall; external {$ifndef STATICLINK}webuilib{$endif};
 
 // -- SSL/TLS -------------------------
 
