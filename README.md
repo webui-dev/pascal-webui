@@ -1,8 +1,8 @@
 <div align="center">
   
-<img src="https://raw.githubusercontent.com/webui-dev/webui-logo/main/webui_240.png" height="200">
+![Logo](https://raw.githubusercontent.com/webui-dev/webui-logo/main/webui_pascal.png)
 
-# WebUI Pascal v2.4.0
+# Pascal-WebUI v2.4.0
 
 [![Nightly Build](https://img.shields.io/badge/webui-dev%2Fwebui?style=for-the-badge&label=Nightly%20Build&labelColor=414868&logo=opensourcehardware&logoColor=C0CAF5)](https://github.com/webui-dev/webui/releases/tag/nightly)
 [![Last commit)](https://img.shields.io/github/last-commit/webui-dev/pascal-webui/main?style=for-the-badge&labelColor=414868&logo=github&logoColor=C0CAF5)](https://github.com/webui-dev/pascal-webui/commits/main)
@@ -13,7 +13,7 @@ WebUI is not a web-server solution or a framework, but it allows you to use any 
 
 <div align="center">
 
-![WebUI](https://github.com/webui-dev/pascal-webui/assets/21068718/f88cc1e0-42a3-4422-bf9a-beeff17cc5d6)
+![Screenshot](https://raw.githubusercontent.com/webui-dev/webui-logo/main/screenshot.png)
 
 </div>
 
