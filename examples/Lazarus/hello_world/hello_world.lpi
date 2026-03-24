@@ -10,7 +10,7 @@
         <MainUnitHasScaledStatement Value="False"/>
       </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <Title Value="text_editor"/>
+      <Title Value="hello_world"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
@@ -26,7 +26,7 @@
     </RunParams>
     <Units>
       <Unit>
-        <Filename Value="text_editor.lpr"/>
+        <Filename Value="hello_world.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
@@ -40,11 +40,10 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="text_editor"/>
+      <Filename Value="hello_world"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <Libraries Value="..\..\..\staticlibs"/>
       <OtherUnitFiles Value="..\..\..\src"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
